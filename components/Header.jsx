@@ -25,12 +25,12 @@ const Header = () => {
   };
 
   return (
-    <View className="flex justify-between items-start flex-row mx-2">
+    <View className="flex justify-between items-start flex-row mx-2 mt-2">
       <View>
-        <Text className="text-2xl font-psemibold text-black ">PIxelChain</Text>
+        <Text className="text-2xl font-psemibold text-black ">PixelChain</Text>
       </View>
 
-      <View className="flex flex-row items-center gap-8">
+      <View className="flex flex-row items-center gap-4">
         <TouchableOpacity onPress={handleAddModal}>
           <Image
             source={images.add}
@@ -42,7 +42,7 @@ const Header = () => {
         <TouchableOpacity onPress={handleProfileModal}>
           <Image
             source={images.profile}
-            className="h-8 w-8 rounded-full"
+            className="h-10 w-10 rounded-full"
             resizeMode="contain"
           />
         </TouchableOpacity>

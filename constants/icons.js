@@ -17,7 +17,9 @@ import copy from "../assets/icons/copy.png";
 import cloud from "../assets/icons/cloud.png";
 import star from "../assets/icons/star.png";
 import album from "../assets/icons/album.png";
-
+import plus2 from "../assets/icons/plus2.png";
+import dot from "../assets/icons/dot.png";
+import menu2 from "../assets/icons/menu2.png";
 
 
 
@@ -41,5 +43,8 @@ export default {
   copy,
   cloud,
   star,
-  album
+  album,
+  plus2,
+  dot,
+  menu2
 };

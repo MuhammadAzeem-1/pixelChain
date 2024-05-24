@@ -28,7 +28,7 @@ const DisplayPhotos = ({ item }) => {
     <View className="flex flex-col  px-4 mb-2">
       <View>
         <View className="flex flex-row justify-between items-center">
-          <Text className="text-xl text-black">Todays</Text>
+          <Text className="text-xl text-black font-bold">Todays</Text>
           <Image
             source={images.checkbox}
             className="w-6 h-6"
@@ -40,7 +40,7 @@ const DisplayPhotos = ({ item }) => {
           <Image
             source={images.thumbnail}
             resizeMode="contain"
-            className="w-32 h-28"
+            className={`w-32 h-28` }
           />
         </TouchableOpacity>
 
