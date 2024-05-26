@@ -20,7 +20,11 @@ import album from "../assets/icons/album.png";
 import plus2 from "../assets/icons/plus2.png";
 import dot from "../assets/icons/dot.png";
 import menu2 from "../assets/icons/menu2.png";
-
+import settings from "../assets/icons/settings.png";
+import question from "../assets/icons/question.png";
+import user from "../assets/icons/user.png";
+import arrow from "../assets/icons/arrow.png";
+import arrow2 from "../assets/icons/arrow2.png";
 
 
 
@@ -46,5 +50,10 @@ export default {
   album,
   plus2,
   dot,
-  menu2
+  menu2,
+  user, 
+  question,
+  settings,
+  arrow,
+  arrow2
 };
