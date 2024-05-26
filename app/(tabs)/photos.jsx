@@ -4,10 +4,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   RefreshControl,
-  Alert,
-  TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Trending from "../../components/Trending";
@@ -32,8 +29,8 @@ const home = () => {
         renderItem={({ item }) => <DisplayPhotos item={item} />}
 
         ListHeaderComponent={() => (
-          <View className="flex my-4 px-4 space-y-4">
-            <View className="w-full flex-1 pb-8">
+          <View className="flex my-4 px-4 space-y-2">
+            <View className="w-full flex-1">
               <Text className="text-xl font-pregular text-gray-100 mb-2">
                 Memories
               </Text>

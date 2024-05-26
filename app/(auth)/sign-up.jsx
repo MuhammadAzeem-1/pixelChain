@@ -42,7 +42,7 @@ const SignUp = () => {
           
 
           <Text className="text-2xl font-semibold text-white mt-10 font-psemibold">
-            Signup to Aora
+            Signup
           </Text>
 
           <FormFeild

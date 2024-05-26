@@ -55,6 +55,27 @@ export const AddModalData = [
     },
 ]
 
+export const profileData = [
+    {
+        id: "1",
+        name: "Settings",
+        image: icons.settings,
+        path: ""
+    },
+    {
+        id: "2",
+        name: "Account info",
+        image: icons.user,
+        path: "/accountinfo"
+    },
+    {
+        id: "3",
+        name: "Help & Feedback",
+        image: icons.question,
+        path: ""
+    },
+]
+
 export const ImageModalData = [
     {
         id: "1",

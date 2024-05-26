@@ -23,6 +23,13 @@ import menu2 from "../assets/icons/menu2.png";
 import trash from '../assets/icons/trash.png';
 import star2 from '../assets/icons/star2.png';
 import plus3 from "../assets/icons/plus3.png";
+import settings from "../assets/icons/settings.png";
+import question from "../assets/icons/question.png";
+import user from "../assets/icons/user.png";
+import arrow from "../assets/icons/arrow.png";
+import arrow2 from "../assets/icons/arrow2.png";
+
+
 
 export default {
   play,
@@ -49,5 +56,10 @@ export default {
   menu2,
   trash,
   star2,
-  plus3
+  plus3,
+  user, 
+  question,
+  settings,
+  arrow,
+  arrow2
 };

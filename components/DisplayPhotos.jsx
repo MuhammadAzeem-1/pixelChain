@@ -25,7 +25,7 @@ const DisplayPhotos = ({ item }) => {
   };
 
   return (
-    <View className="flex flex-col  px-4 mb-2">
+    <View className="flex flex-col px-4 mb-2">
       <View>
         <View className="flex flex-row justify-between items-center">
           <Text className="text-xl text-black font-bold">Todays</Text>
