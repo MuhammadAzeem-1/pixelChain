@@ -1,4 +1,5 @@
 import icons from "./icons"
+import newAlbum from '../assets/newAlbum.png'
 
 export const data = [
     {
@@ -14,6 +15,27 @@ export const data = [
         image: "https://images.unsplash.com/photo-1559705421-4ae9bf6fabb5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
 ]
+
+export const NewAlbumdata = [
+    {
+        id: "1",
+        image: newAlbum
+    },
+    {
+        id: "2",
+        image: "https://images.unsplash.com/photo-1516108317508-6788f6a160e4?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        id: "3",
+        image: "https://images.unsplash.com/photo-1677756119517-756a188d2d94?q=80&w=1700&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+        id: "4",
+        image: "https://images.unsplash.com/photo-1559705421-4ae9bf6fabb5?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+]
+
+
 
 export const AddModalData = [
     {

@@ -20,9 +20,9 @@ import album from "../assets/icons/album.png";
 import plus2 from "../assets/icons/plus2.png";
 import dot from "../assets/icons/dot.png";
 import menu2 from "../assets/icons/menu2.png";
-
-
-
+import trash from '../assets/icons/trash.png';
+import star2 from '../assets/icons/star2.png';
+import plus3 from "../assets/icons/plus3.png";
 
 export default {
   play,
@@ -46,5 +46,8 @@ export default {
   album,
   plus2,
   dot,
-  menu2
+  menu2,
+  trash,
+  star2,
+  plus3
 };

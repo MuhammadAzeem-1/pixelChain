@@ -48,7 +48,7 @@ const bookmark = () => {
     <SafeAreaView className="bg-gray-50	h-full">
       <Header />
 
-      {true ? (
+      {!true ? (
         <View>
           <View className="flex flex-row justify-end items-end m-8">
             <TouchableOpacity className="bg-gray-300 flex flex-row justify-center items-center rounded-2xl gap-2 pb-2 px-2 ">

@@ -1,19 +1,24 @@
 import {
   Image,
+  FlatList,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
+  RefreshControl,
   View,
 } from "react-native";
 import React, { useState } from "react";
-import FormFeild from "../../components/FormFeild";
-import CustomButton from "../../components/CustomButton"
-import { ResizeMode, Video } from "expo-av";
-import { icons } from "../../constants";
+import { icons, images } from "../../constants";
+import { data, NewAlbumdata } from "../../constants/data";
+import Folders from "../../components/Folders";
+import Albums from "../../components/Albums";
 
 const create = () => {
+
+  const [refreshing, setRefreshing] = useState(false);
+
   const [form, setForm] = useState({
     title: "",
     video: null,
@@ -26,97 +31,108 @@ const create = () => {
 
   }
 
+  const onRefresh = async () => {};
+
 
   return (
-    <SafeAreaView className="bg-primary h-full mt-8">
-      
-      <ScrollView className="px-4 my-6">
+    <SafeAreaView className="bg-white h-full">
 
-        <Text className="text-2xl text-white font-psemibold">
-          Upload Videos
-        </Text>
+        <View className="h-[50px] mt-8 px-3 flex-row justify-between items-center">
+          <View className="flex-row items-start justify-center">
+            <Text className="text-2xl font-psemibold text-blue-600">P</Text>
+            <Text className="text-2xl font-psemibold text-red-500">i</Text>    
+            <Text className="text-2xl font-psemibold text-yellow-400">x</Text>
+            <Text className="text-2xl font-psemibold text-blue-600">e</Text>
+            <Text className="text-2xl font-psemibold text-green-500">l</Text>
+            <Text className="text-2xl font-psemibold text-gray-700 ml-[2px]">Chain</Text>
+          </View>
+          <View className="w-12 h-12 border border-secondary rounded-full px-1 py-1 flex justify-center items-center">
+            <Image
+              source={ images.profile }
+              className="w-[100%] h-[100%] rounded-full"
+              resizeMode="cover"
+            />
+          </View>
+        </View>
 
-        <FormFeild
-          title="Video Title"
-          value={form.title}
-          placeholder="Give your video a catchy title..."
-          handleChangetext={(e) => setForm({ ...form, title: e })}
-          otherStyles="mt-10"
-        />
+        <View className="flex-row items-center h-[150px] justify-between mx-4">
+          
+          <TouchableOpacity className="flex-row items-center justify-evenly w-[160px] h-70 py-4 bg-blue-100 rounded-xl" onPress={() => {}}>
+            <Image source={icons.star2} className="w-[30px] h-[30px] justify-between"/>
+            <Text className="text-[18px] font-pmedium text-gray-800 top-[2px]">Favorites</Text>
+          </TouchableOpacity>
 
-        <View className="mt-7 space-y-2">
-          <Text className="text-base text-gray-100 font-pmedium">
-            Upload Video
-          </Text>
+          <TouchableOpacity className="flex-row items-center justify-evenly w-[160px] h-70 py-4 bg-blue-100 rounded-xl" onPress={() => {}}>
+            <Image source={icons.trash} className="w-[30px] h-[30px] justify-between"/>
+            <Text className="text-[18px] font-pmedium text-gray-800 top-[2px]">Trash</Text>
+          </TouchableOpacity>
 
-          <TouchableOpacity>
-            {form.video ? (
-              <Video
-                source={{ uri: form.video.uri }}
-                className="w-full h-64 rounded-2xl"
-                useNativeControls
-                resizeMode={ResizeMode.COVER}
-                isLooping
-              />
-            ) : (
-               <View className="w-full h-40 px-4 bg-black-100 rounded-2xl border border-black-200 flex justify-center items-center">
-                  <View className="w-14 h-14 border border-dashed border-secondary-100 flex justify-center items-center ">
-                      <Image 
-                         source={icons.upload}
-                         resizeMode="contain"
-                         alt="upload"
-                         className="w-1/2 h-1/2"
-                      />
-                  </View>
-               </View>
-            )}
+        </View>
+
+        <View className="flex-row items-center justify-between mx-4">
+          <Text className="text-[20px] font-pmedium text-gray-700">Photos on device</Text>
+          <TouchableOpacity onPress={() => {}}>
+            <Text className="text-[20px] font-pmedium text-[#3993BF]">
+              View All
+            </Text>
           </TouchableOpacity>
         </View>
 
 
-        <View className="mt-7 space-y-2">
-          <Text className="text-base text-gray-100 font-pmedium">
-            Thumbnail Imaga
-          </Text>
+        <View className="h-fit">
+          <FlatList
+            data={[{ id: "1" }, { id: "2" }, { id: "3" }]}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={{ flexGrow: 1 }}
 
-          <TouchableOpacity>
-            {form.thumbnail ? (
-              <Image 
-                 source={{uri: form.thumbnail.uri}}
-                 resizeMode="cover"
-                 className="w-full h-64 rounded-2xl"
-              />
-            ) : (
-              <View className="w-full h-16 px-4 bg-black-100 rounded-2xl border-2 border-black-200 flex justify-center items-center flex-row space-x-2">
-                  <Image 
-                     source={icons.upload}
-                     resizeMode="contain"
-                     alt="upload"
-                     className="w-5 h-5"
-                  />
-
-                  <Text className="text-sm text-gray-100 font-pmedium">
-                    Choose a file
-                  </Text>
+            ListHeaderComponent={() => (
+              <View className="flex my-4 px-4 space-y-4">
+                  <Folders data={data} />
               </View>
             )}
-          </TouchableOpacity>
+            
+            ListEmptyComponent={() => (
+              <EmptyState
+                title="Permission Required"
+                subtitle="No Permissions"
+              />
+            )}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
         </View>
 
-        <FormFeild 
-           title="AI Prompt"
-           value={form.prompt}
-           placeholder="The AI prompt of your video..."
-           handleChangetext={(e) => setForm({...form, prompt:e})}
-           otherStyles="mt-7"
-        />
+        {/* Albmus */}
+        <View className="flex-row items-center justify-between mx-4">
+          <Text className="text-[20px] font-pmedium text-gray-700">Albums</Text>
+          <Text className="text-[20px] font-pmedium text-[#3993BF]">Recent Photo</Text>
+        </View>
 
-        <CustomButton 
-           title="Submit & Publish"
-           handlePress={submit}
-           containerStyles="mt-7"
-        />
-      </ScrollView>
+        <View  style={{ flex: 1 }} className="w-[100%]">  
+            <FlatList 
+              data={[{ id: "1" }, { id: "2" }, { id: "3" }]}
+              keyExtractor={(item) => item.id}
+
+              ListHeaderComponent={() => (
+                <View className="flex my-4 px-4 space-y-4">
+                    <Albums data={NewAlbumdata} />
+                </View>
+              )}
+
+              ListEmptyComponent={() => (
+                <EmptyState
+                  title="No Albums"
+                  subtitle="No Albums"
+                />
+              )}
+
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+            />
+        </View>
+
     </SafeAreaView>
   );
 };
