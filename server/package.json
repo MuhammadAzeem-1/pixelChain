@@ -1,0 +1,21 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "backend for pixelchain app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "elliptic": "^6.5.5",
+    "ethereumjs-wallet": "^1.0.2",
+    "ethers": "^6.13.1",
+    "express": "^4.19.2",
+    "express-async-handler": "^1.2.0",
+    "web3-eth-accounts": "^4.1.2"
+  }
+}
