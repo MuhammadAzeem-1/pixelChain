@@ -1,7 +1,7 @@
 <div align="center">
   <br />
      <a href="#" target="_blank">
-      <img src="https://iili.io/dqvPRQR.png" alt="Project Banner">
+      <img src="https://i.postimg.cc/hvBdRN3M/Pixel-Chain.png" alt="Project Banner">
     </a>
   <br />
 
