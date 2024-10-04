@@ -7,6 +7,7 @@ import logoSmall from "../assets/images/logo-small.png";
 import empty from "../assets/images/empty.png";
 import add from "../assets/images/add.png"
 import checkbox from "../assets/images/checkbox.png"
+import memorycards from "../assets/images/memories_card.png"
 
 
-export default { profile, thumbnail, cards, path, logo, logoSmall, checkbox ,empty , add };
+export default { profile, thumbnail, cards, path, logo, logoSmall, checkbox ,empty , add , memorycards};

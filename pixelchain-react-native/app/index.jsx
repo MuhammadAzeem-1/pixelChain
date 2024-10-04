@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity , ScrollView, Image } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, Image } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,24 +7,20 @@ import CustomButton from "../components/CustomButton";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-
 export default function App() {
-
   useEffect(() => {
     const fetchStoredPasscode = async () => {
       const savedPasscode = await AsyncStorage.getItem("passcode");
-    
+
       if (savedPasscode) {
         console.log(savedPasscode);
         router.push("/photos");
       }
     };
     fetchStoredPasscode();
-  },[])
+  }, []);
   // if (!isLoading && isLogged) return <Redirect href="/home" />;
 
-  
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
@@ -60,8 +56,6 @@ export default function App() {
             handlePress={() => router.push("/sign-up")}
             containerStyles="w-full mt-7"
           />
-
-          
         </View>
       </ScrollView>
 

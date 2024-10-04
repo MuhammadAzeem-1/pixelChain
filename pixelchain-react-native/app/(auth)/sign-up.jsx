@@ -8,21 +8,29 @@ import {
   TouchableOpacity,
   Platform,
   ToastAndroid,
+  Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons } from "../../constants";
 import { CustomButton, FormFeild } from "../../components";
 import { Link, router } from "expo-router";
 import * as Clipboard from "expo-clipboard";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isKeyCopied, setIsKeyCopied] = useState(false);
   const [form, setForm] = useState({
-    key: "asdasdasdasfgs654",
-    address: "654fsdfsd65fsdfg1sd",
+    key: "",
+    address: "",
   });
 
   const submit = async () => {
+    if (!isKeyCopied) {
+      Alert.alert("Warning", "Please Copy The keys Before Proceeding");
+      return;
+    }
     router.replace("/sign-in");
   };
 
@@ -30,7 +38,7 @@ const SignUp = () => {
     if (form) {
       console.log("copying to clipboard", form.key);
       await Clipboard.setStringAsync("hello world");
-
+      setIsKeyCopied(true);
       // Display a success message
       if (Platform.OS === "android") {
         ToastAndroid.show("Text copied to clipboard!", ToastAndroid.SHORT);
@@ -39,75 +47,78 @@ const SignUp = () => {
   };
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="bg-white h-full">
       <ScrollView>
         <View className="w-full justify-center h-full px-4 my-1">
-          <TouchableOpacity>
-            <Image
-              source={icons.arrow2}
-              className="w-6 h-6 "
-              resizeMode="contain"
-            />
-          </TouchableOpacity>
-
-          <View className="flex flex-row  justify-center items-center">
-            <Text className="text-2xl font-light tracking-widest  text-white mt-2">
-              Create Account
+          <View>
+            <Text className="text-base font-semibold tracking-widest  text-black mt-2">
+              Secure Account Creation
             </Text>
           </View>
 
           <View className="flex justify-center items-center text-center mt-10">
-            <Text className="text-xl text-center font-medium text-orange-400		">
-              We've just generated a private Key and address for you.
+            <Text className="text-sm text-center font-light text-orange-400		">
+              Your
+              <Text className="font-medium capitalize">
+                {" "}
+                private Key
+              </Text> and{" "}
+              <Text className="font-medium capitalize"> Public Key</Text> have
+              been securely generated.
             </Text>
           </View>
 
           <FormFeild
             title="Private Key"
             value={form.key}
-            handleChangetext={(e) => setForm({ ...form, email: e })}
-            otherStyles="mt-7"
-            disabled={false}
+            placeholder={"Generated Private Key"}
+            otherStyles="mt-10"
+            disabled={true}
+            s
+            secure={false}
           />
 
           <FormFeild
-            title="Address"
+            title="Public Key"
             value={form.address}
-            handleChangetext={(e) => setForm({ ...form, password: e })}
+            placeholder={"Generated Public Address"}
             otherStyles="mt-7"
-            disabled={false}
+            disabled={true}
+            secure={true}
           />
 
           <TouchableOpacity
-            className="bg-indigo-800 border border-white rounded-xl min-h-[62px] flex flex-row justify-center items-center mt-7"
+            className="bg-[#3AC0A0] border border-white rounded-xl min-h-[55px] flex flex-row justify-center items-center  mt-12"
             onPress={copyToClopboard}
           >
-            <Image
-              source={icons.copy}
-              className="w-6 h-6"
-              resizeMode="contains"
-            />
-            <Text className="text-white font-psemibold text-lg pl-2">
-              Copy Private Key
+            {isKeyCopied ? (
+              <AntDesign name="check" size={15} color="white" />
+            ) : (
+              <MaterialIcons name="content-copy" size={15} color="white" />
+            )}
+            <Text className="text-white font-pmedium text-base pl-5 tracking-wider	">
+              Copy Keys
             </Text>
           </TouchableOpacity>
 
           <View className="flex flex-row items-center gap-1 mt-7">
-            <View className="p-4 bg-secondary rounded-full">
-              <Image
-                source={icons.problem}
-                className="w-6 h-6"
-                resizeMode="contains"
-              />
+            <View className="p-4 bg-[#E86339] rounded-full">
+              <MaterialIcons name="error-outline" size={24} color="black" />
             </View>
-            <Text className="text-white font-light text-base pl-2 w-60">
-              Make sure to keep your private key safe. It is the only way to
-              access your account.
-            </Text>
+
+            <View className="w-60 pl-2  ">
+              <Text className="text-[#FFB37C] text-sm font-normal">
+                Keep your Private Key secure. It’s your sole access to your
+                account.
+              </Text>
+              <Text className="text-[#FFB37C] text-sm font-medium ">
+                Do not share it with anyone.
+              </Text>
+            </View>
           </View>
 
           <CustomButton
-            title="Next"
+            title="Proceed to Next Step."
             handlePress={submit}
             containerStyles={"mt-7"}
             isLoading={isSubmitting}

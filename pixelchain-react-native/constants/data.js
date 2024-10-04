@@ -40,7 +40,7 @@ export const NewAlbumdata = [
 export const AddModalData = [
     {
         id: "1",
-        name: "Album",
+        name: "Pics",
         image: icons.album
     },
     {
@@ -50,7 +50,7 @@ export const AddModalData = [
     },
     {
         id: "3",
-        name: "favorites",
+        name: "Favorites",
         image: icons.star
     },
 ]

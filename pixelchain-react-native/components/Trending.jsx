@@ -32,7 +32,7 @@ const TrendingItem = ({ activeItem, item }) => {
 
   return (
     <Animatable.View
-      className="mr-5"
+      className="mr-2"
       animation={activeItem === item.$id ? zoomIn : zoomOut}
       duration={500}
     >
@@ -42,7 +42,7 @@ const TrendingItem = ({ activeItem, item }) => {
         <TouchableOpacity>
           <ImageBackground
             source={{ uri: item.image }}
-            className="w-52 h-60 rounded-[33px] my-2 overflow-hidden shadow-lg shadow-black/40"
+            className="w-40 h-44 rounded-[33px] my-2 overflow-hidden shadow-lg shadow-black/40"
             resizeMode="cover"
           />
         </TouchableOpacity>

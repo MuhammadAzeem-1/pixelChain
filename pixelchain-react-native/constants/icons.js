@@ -29,6 +29,10 @@ import user from "../assets/icons/user.png";
 import arrow from "../assets/icons/arrow.png";
 import arrow2 from "../assets/icons/arrow2.png";
 import problem from "../assets/icons/problem.png";
+import clock from "../assets/icons/clock.png";
+import video from "../assets/icons/video.png";
+
+
 
 export default {
   play,
@@ -61,5 +65,7 @@ export default {
   settings,
   arrow,
   arrow2,
-  problem
+  problem,
+  clock,
+  video
 };

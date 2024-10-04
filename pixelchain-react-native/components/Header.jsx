@@ -12,6 +12,7 @@ import { images } from "../constants";
 import Modal from "react-native-modal";
 import ProfileModal from "./modal/ProfileModal";
 import AddModal from "./modal/AddModal";
+import Entypo from "@expo/vector-icons/Entypo";
 
 const Header = () => {
   const [isProfileModalVisible, setProfileModelVisible] = useState(false);
@@ -26,30 +27,25 @@ const Header = () => {
   };
 
   return (
-  
-    <View className="flex justify-between items-start flex-row mx-2 mt-2">
+    <View className="flex justify-between items-center flex-row mx-2 mt-2">
       <View className="flex-row items-start justify-center">
-        <Text className="text-2xl font-psemibold text-blue-600">P</Text>
-        <Text className="text-2xl font-psemibold text-red-500">i</Text>
-        <Text className="text-2xl font-psemibold text-yellow-400">x</Text>
-        <Text className="text-2xl font-psemibold text-blue-600">e</Text>
-        <Text className="text-2xl font-psemibold text-green-500">l</Text>
-        <Text className="text-2xl font-psemibold text-gray-700 ml-[2px]">
+        <Text className="text-xl font-psemibold text-blue-600">P</Text>
+        <Text className="text-xl font-psemibold text-red-500">i</Text>
+        <Text className="text-xl font-psemibold text-yellow-400">x</Text>
+        <Text className="text-xl font-psemibold text-blue-600">e</Text>
+        <Text className="text-xl font-psemibold text-green-500">l</Text>
+        <Text className="text-xl font-psemibold text-gray-700 ml-[2px]">
           Chain
         </Text>
       </View>
 
       <View className="flex flex-row items-center gap-4">
         <TouchableOpacity onPress={handleAddModal}>
-          <Image
-            source={images.add}
-            className="h-6 w-6 rounded-full"
-            resizeMode="contain"
-          />
+          <Entypo name="plus" size={24} color="black" />
         </TouchableOpacity>
 
         <TouchableOpacity onPress={handleProfileModal}>
-          <View className="w-12 h-12 border border-secondary rounded-full px-1 py-1 flex justify-center items-center">
+          <View className="w-8 h-8 border border-secondary rounded-full px-1 py-1 flex justify-center items-center">
             <Image
               source={images.profile}
               className="w-[100%] h-[100%] rounded-full"

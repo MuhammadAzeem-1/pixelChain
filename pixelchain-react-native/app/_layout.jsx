@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
-import {  SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import { Provider } from "react-redux";
+import store from "../context/store";
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -30,16 +32,15 @@ const RootLayout = () => {
   }
 
   return (
-
+    <Provider store={store}>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(account)" options={{ headerShown: false }} />
       </Stack>
-  ) 
-    
-  
+    </Provider>
+  );
 };
 
 export default RootLayout;
