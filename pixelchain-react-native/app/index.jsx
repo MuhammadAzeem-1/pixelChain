@@ -6,20 +6,28 @@ import { images } from "../constants";
 import CustomButton from "../components/CustomButton";
 import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
+import 'react-native-get-random-values'; // Required for WalletConnect
+import { Buffer } from 'buffer';
+
 
 export default function App() {
   useEffect(() => {
     const fetchStoredPasscode = async () => {
-      const savedPasscode = await AsyncStorage.getItem("passcode");
-
-      if (savedPasscode) {
-        console.log(savedPasscode);
+      const credentials = await SecureStore.getItemAsync("userPin");
+      if (credentials) {
+        console.log(credentials);
         router.push("/photos");
       }
     };
     fetchStoredPasscode();
   }, []);
   // if (!isLoading && isLogged) return <Redirect href="/home" />;
+
+  // Ensure Buffer is globally available
+if (typeof global.Buffer === 'undefined') {
+  global.Buffer = Buffer;
+}
 
   return (
     <SafeAreaView className="bg-primary h-full">

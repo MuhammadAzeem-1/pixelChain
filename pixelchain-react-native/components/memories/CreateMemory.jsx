@@ -6,10 +6,17 @@ import {
   View,
   TouchableOpacity,
   Image,
+  Button,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
-const CreateMemory = ({ memoryData, setMemoryData, handleAddMemory, handleAddMemoryClick }) => {
+const CreateMemory = ({
+  memoryData,
+  setMemoryData,
+  handleAddMemory,
+  handleAddMemoryClick,
+}) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
 
@@ -45,56 +52,68 @@ const CreateMemory = ({ memoryData, setMemoryData, handleAddMemory, handleAddMem
   }
 
   return (
-    <View className="p-4 bg-gray-100 rounded-lg m-4">
-      {/* Memory Name Input */}
-      <TextInput
-        value={memoryData?.memoryName}
-        onChangeText={(text) =>
-          setMemoryData({ ...memoryData, memoryName: text })
-        }
-        placeholder="Title"
-        className="bg-white p-2 rounded-lg mb-4 border border-gray-300"
-      />
+    <View className="flex justify-center items-center w-full h-full">
+      <View className="p-4 bg-gray-50 rounded-lg m-2 w-full">
+        {/* Memory Name Input */}
 
-      <TextInput
-        value={memoryData?.memoryTitle}
-        onChangeText={(text) =>
-          setMemoryData({ ...memoryData, memoryTitle: text })
-        }
-        placeholder="Description"
-        className="bg-white p-2 rounded-lg mb-4 border border-gray-300"
-      />
+        
 
-      {image && (
-        <Image
-          source={{ uri: image }}
-          style={{ width: 64, height: 64 }} // Replace w-8 h-8 with exact dimensions
+        <TextInput
+          value={memoryData?.memoryName}
+          onChangeText={(text) =>
+            setMemoryData({ ...memoryData, memoryName: text })
+          }
+          placeholder="Title"
+          className="bg-white p-2 rounded-lg mb-4 border border-gray-300"
         />
-      )}
 
-      {/* Image Picker Button */}
-      <TouchableOpacity
-        className="bg-blue-600 py-2 px-4 rounded-lg mb-4"
-        onPress={() => pickImage()}
-      >
-        <Text className="text-white">Select Image from Gallery</Text>
-      </TouchableOpacity>
+        <TextInput
+          value={memoryData?.memoryTitle}
+          onChangeText={(text) =>
+            setMemoryData({ ...memoryData, memoryTitle: text })
+          }
+          placeholder="Description"
+          className="bg-white p-2 rounded-lg mb-4 border border-gray-300"
+          multiline={true} // Enables multiple lines like a textarea
+          numberOfLines={4} // Suggests the number of lines to display initially
+          style={{ height: 150, textAlignVertical: "top" }} // Adjust the height and text alignment
+        />
 
-      {/* Save Memory Button */}
-      <TouchableOpacity
-        className="bg-green-500 py-2 px-4 rounded-lg"
-        onPress={handleAddMemory}
-      >
-        <Text className="text-white">Save Memory</Text>
-      </TouchableOpacity>
+        {image && (
+          <Image
+            source={{ uri: image }}
+            style={{ width: 64, height: 64 }} // Replace w-8 h-8 with exact dimensions
+          />
+        )}
 
-      {/* Cancel Button */}
-      <TouchableOpacity
-        className="bg-green-500 py-2 px-4 rounded-lg mt-4"
-        onPress={handleAddMemoryClick}
-      >
-        <Text className="text-white">Go Back</Text>
-      </TouchableOpacity>
+        {/* Image Picker Button */}
+        <Button
+          onPress={() => pickImage()}
+          title="Select Image from Gallery"
+          color="#b4dbff"
+          accessibilityLabel="Learn more about this purple button"
+        />
+
+        {/* Save Memory Button */}
+        <TouchableOpacity
+          className="bg-[#3AC0A0] py-2 px-4 rounded-lg flex justify-center items-center mt-8"
+          onPress={handleAddMemory}
+          disabled={
+            !memoryData?.memoryName || !memoryData?.memoryTitle || !image
+          }
+        >
+          <Text className="text-white">Save Memory</Text>
+        </TouchableOpacity>
+
+        {/* Cancel Button */}
+        <TouchableOpacity
+          className="mt-4 flex justify-center items-center flex-row "
+          onPress={handleAddMemoryClick}
+        >
+          <AntDesign name="arrowleft" size={15} color="black" />
+          <Text className="text-black ml-2">Go Back</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

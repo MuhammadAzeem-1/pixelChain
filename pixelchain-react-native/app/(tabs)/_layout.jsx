@@ -1,25 +1,61 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { Tabs } from "expo-router";
-import { icons } from "../../constants";
+// import { icons } from "../../constants";
 import { StatusBar } from "expo-status-bar";
+import Entypo from "@expo/vector-icons/Entypo";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
-    <View className="flex items-center justify-center gap-2">
-      <Image
-        source={icon}
-        resizeMode="contain"
-        tintColor={color}
-        className="w-6 h-6"
-      />
+    <View className="flex items-center justify-center ">
+      {icon === "photos" && (
+        <Entypo
+          name="home"
+          size={focused ? 28 : 24}
+          color={focused ? "#FFA001" : "black"}
+        />
+      )}
 
-      <Text
-        className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
+      {icon === "memories" && (
+        <MaterialIcons
+          name="bookmark-add"
+          size={focused ? 28 : 24}
+          color={focused ? "#FFA001" : "black"}
+        />
+      )}
+
+      {icon === "camera" && (
+        <Entypo
+          name="camera"
+          size={focused ? 28 : 24}
+          color={focused ? "#FFA001" : "black"}
+        />
+      )}
+
+      {icon === "library" && (
+        <Ionicons
+          name="settings-sharp"
+          size={focused ? 28 : 24}
+          color={focused ? "#FFA001" : "black"}
+        />
+      )}
+
+      {icon === "profile" && (
+        <Ionicons
+          name="person"
+          size={focused ? 28 : 24}
+          color={focused ? "#FFA001" : "black"}
+        />
+      )}
+
+      {/* <Text
+        className={`${focused ? "font-psemibold" : "font-pregular"} text-[10px]`}
         style={{ color: color }}
       >
         {name}
-      </Text>
+      </Text> */}
     </View>
   );
 };
@@ -27,86 +63,120 @@ const TabIcon = ({ icon, color, name, focused }) => {
 const TabsLayout = () => {
   return (
     <>
-    
-    <Tabs
-      screenOptions={{
-        tabBarShowLabel: false,
-        tabBarActiveTintColor: "#FFA001",
-        tabBarInactiveTintColor: "#CDCDE0",
-        tabBarStyle: {
-          backgroundColor : "#161622",
-          borderTopWidth: 1,
-          borderTopColor: "#232533",
-          height: 84
-        }
-      }}
-    >
-      <Tabs.Screen
-        name="photos"
-        options={{
-          title: "Photos",
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.home}
-              color={color}
-              name="Photos"
-              focused={focused}
-            />
-          ),
+      <Tabs
+        screenOptions={{
+          tabBarShowLabel: false,
+          tabBarActiveTintColor: "#FFA001",
+          tabBarInactiveTintColor: "#CDCDE0",
+          tabBarStyle: {
+            backgroundColor: "#EAF2FF",
+            height: 50,
+            position: "absolute", // Makes the tabs float and lets you adjust positioning
+            bottom: 10, // Adjust the distance from the bottom of the screen
+            marginHorizontal: 10, // Adds space on the sides
+            borderRadius: 30,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 10 },
+            shadowOpacity: 0.1,
+            shadowRadius: 5,
+            elevation: 10,
+          },
         }}
-      />
+      >
+        <Tabs.Screen
+          name="photos"
+          options={{
+            title: "Photos",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={"photos"}
+                color={color}
+                name="Photos"
+                focused={focused}
+              />
+            ),
+          }}
+        />
 
-      <Tabs.Screen
-        name="memories"
-        options={{
-          title: "Memories",
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.bookmark}
-              color={color}
-              name="Memories"
-              focused={focused}
-            />
-          ),
-        }}
-      />
+        <Tabs.Screen
+          name="memories"
+          options={{
+            title: "Memories",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={"memories"}
+                color={color}
+                name="Memories"
+                focused={focused}
+              />
+            ),
+          }}
+        />
 
-      <Tabs.Screen
-        name="library"
-        options={{
-          title: "Library",
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.library}
-              color={color}
-              name="Library"
-              focused={focused}
-            />
-          ),
-        }}
-      />
+        <Tabs.Screen
+          name="camera"
+          options={{
+            title: "camera",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <View
+                style={{
+                  width: 60,
+                  height: 60,
+                  backgroundColor: "#FFA001",
+                  borderRadius: 30,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: -30, // Makes it float above the other tabs
+                  shadowColor: "#000",
+                  shadowOffset: { width: 0, height: 5 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 5,
+                  elevation: 10,
+                }}
+              >
+                <TabIcon icon={"camera"} />
+              </View>
+            ),
+          }}
+        />
 
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <TabIcon
-              icon={icons.profile}
-              color={color}
-              name="Profile"
-              focused={focused}
-            />
-          ),
-        }}
-      />
-    </Tabs>
+        <Tabs.Screen
+          name="library"
+          options={{
+            title: "Library",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={"library"}
+                color={color}
+                name="Library"
+                focused={focused}
+              />
+            ),
+          }}
+        />
 
-    <StatusBar backgroundColor="#161622" style="light"/>
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: "Profile",
+            headerShown: false,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                icon={"profile"}
+                color={color}
+                name="Profile"
+                focused={focused}
+              />
+            ),
+          }}
+        />
+      </Tabs>
+
+      <StatusBar backgroundColor="#161622" style="light" />
     </>
   );
 };

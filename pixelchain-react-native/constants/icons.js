@@ -31,6 +31,8 @@ import arrow2 from "../assets/icons/arrow2.png";
 import problem from "../assets/icons/problem.png";
 import clock from "../assets/icons/clock.png";
 import video from "../assets/icons/video.png";
+import loading from "../assets/icons/loading.gif";
+
 
 
 
@@ -67,5 +69,6 @@ export default {
   arrow2,
   problem,
   clock,
-  video
+  video,
+  loading
 };

@@ -1,184 +1,74 @@
-import {
-  FlatList,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 import Header from "../../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { icons, images } from "../../constants";
-import CreateMemory from "../../components/memories/CreateMemory";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addMemory,
-  deleteMemory,
-  editMemory,
-} from "../../context/Services/memoriesSlice";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import Feather from "@expo/vector-icons/Feather";
-
-const RenderItem = ({ item, handleDeleteMemory }) => (
-  <View className="mx-4 my-4">
-    <View className="flex flex-row items-center justify-between">
-      <Text className="font-pregular text-xs text-gray-400 tracking-wide">
-        {item.date}
-      </Text>
-
-      <TouchableOpacity onPress={() => handleDeleteMemory(item.id)}>
-        <AntDesign name="delete" size={15} color="#E86339" />
-      </TouchableOpacity>
-    </View>
-
-    <View>
-      <Text className=" text-base font-pregular font-semibold tracking-wider">
-        {item.memoryName}
-      </Text>
-
-      <Image
-        source={{ uri: item.memoryImage }}
-        resizeMode="cover"
-        className="w-[100%] h-48 rounded-lg"
-      />
-    </View>
-
-    {/* <View className="flex justify-end items-end">
-      <TouchableOpacity className="border rounded-full">
-        <Image
-          source={icons.menu2}
-          className="h-4 w-4 m-1"
-          resizeMode="contain"
-        />
-      </TouchableOpacity>
-    </View> */}
-  </View>
-);
+import { TouchableOpacity } from "react-native";
 
 const bookmark = () => {
   const dispatch = useDispatch();
-  const memories = useSelector((state) => state.memories.memories);
-  const [newMemory, setNewMemory] = useState(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
-  const [memoryData, setMemoryData] = useState({
-    id: Date.now().toString(), // Generate unique ID
-    date: new Date().toDateString(),
-    memoryName: "",
-    memoryTitle: "",
-    memoryImage: "",
-  });
+  const folders = useSelector((state) => state.album.folders);
+  const loading = useSelector((state) => state.album.loading);
+  const error = useSelector((state) => state.album.error);
+  //
+  const [selectedFileUrl, setSelectedFileUrl] = useState(null);
 
-  console.log(memories, "memories");
+  console.log("images", images);
 
-  const toggleMemory = () => {
-    setNewMemory(!newMemory);
+  // Helper function to convert bytes to MB
+  const formatSizeInMB = (sizeInBytes) => {
+    return (sizeInBytes / (1024 * 1024)).toFixed(2); // Convert to MB with 2 decimal places
   };
 
-  const handleAddMemoryClick = () => {
-    setIsFormVisible(!isFormVisible); // Show the form when button is clicked
-  };
-
-  const handleAddMemory = () => {
-    setMemoryData({
-      id: Date.now().toString(), // Generate unique ID
-      date: new Date().toDateString(),
-      memoryName: "",
-      memoryTitle: "",
-      memoryImage: "",
-    });
-
-    dispatch(addMemory(memoryData));
-    setIsFormVisible(!isFormVisible);
-  };
-
-  const handleEditMemory = (id, updatedData) => {
-    dispatch(editMemory({ id, updatedData }));
-  };
-
-  const handleDeleteMemory = (id) => {
-    dispatch(deleteMemory(id));
+  // Helper function to format the date
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
   };
 
   return (
-    <SafeAreaView className="bg-gray-50	h-full">
+    <SafeAreaView className="bg-white	h-full">
       <Header />
 
-      {isFormVisible ? (
-        <CreateMemory
-          memoryData={memoryData}
-          setMemoryData={setMemoryData}
-          handleAddMemory={handleAddMemory}
-          handleAddMemoryClick={handleAddMemoryClick}
-        />
-      ) : (
-        <>
-          {memories.length > 0 ? (
-            <View className="h-[85%]">
-              <View className="flex flex-row justify-end items-end m-4">
-                <TouchableOpacity
-                  onPress={handleAddMemoryClick}
-                  className="bg-[#EAF2FF] flex flex-row justify-center items-center rounded-2xl py-1 px-2 "
-                >
-                  <Feather name="plus" size={15} color="black" />
 
-                  <Text className="text-sm font-pregular ml-2">Add memory</Text>
+      <View className="flex justify-between items-center p-4 h-full">
+        {folders && folders.length > 0 ? (
+          <>
+            <FlatList
+              data={folders}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <TouchableOpacity>
+                  <View className="flex justify-start items-center flex-row gap-4 mb-2 border-b-[1px] border-gray-100">
+                    <AntDesign name="pdffile1" size={15} color="black" />
+
+                    <View className="w-full truncate">
+                      <Text className="text-sm font-medium">Personal</Text>
+
+                      <View>
+                        <Text className="text-xs font-light">Size: 1 MB</Text>
+                        <Text className="text-xs font-light">
+                          Date: 22 july 2014
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
                 </TouchableOpacity>
-              </View>
-
-              <View>
-                <FlatList
-                  data={memories}
-                  renderItem={({ item }) => (
-                    <RenderItem
-                      item={item}
-                      handleDeleteMemory={handleDeleteMemory}
-                    />
-                  )}
-                  keyExtractor={(item) => item.id}
-                />
-              </View>
+              )}
+            />
+          </>
+        ) : (
+          <>
+            <View className="flex justify-center items-center">
+              <FontAwesome name="search" size={30} color="black" />
+              <Text className="text-center text-gray-400">No Folder Exits</Text>
             </View>
-          ) : (
-            <View className="w-full h-full flex justify-center items-center ">
-              <Image
-                source={images.memorycards}
-                className="max-w-[350px] w-full h-[248px]"
-                resizeMode="contain"
-              />
-
-              <Text className="text-xl tracking-wider font-pregular">
-                Welcome to Memories
-              </Text>
-
-              <Text className="text-base w-72 tracking-wide text-center	my-2">
-                The more Photos you backup, the more memories will automatically
-                will appear here.
-              </Text>
-
-              <View className="flex justify-center gap-4 ">
-                <TouchableOpacity className="px-4 py-2 rounded-xl bg-blue-800	">
-                  <Text className="text-white tracking-wide text-base">
-                    {" "}
-                    Set up backup
-                  </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={handleAddMemoryClick}
-                  className="px-4 py-2 rounded-xl bg-blue-300"
-                >
-                  <Text className="text-black tracking-wide text-base">
-                    Create a memory
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-        </>
-      )}
+          </>
+        )}
+      </View>
     </SafeAreaView>
   );
 };

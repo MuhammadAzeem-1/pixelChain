@@ -2,7 +2,9 @@ const asyncHandler = require("express-async-handler");
 const AWS = require("aws-sdk");
 
 // Storj S3 credentials (replace with actual credentials)
-
+const accessKeyId = "jxmfpcianvd325ki6do34cwdyy5a";
+const secretAccessKey = "jyih557pja4o6ibmejywqc2akst32acj4jy2yguxxgzigsuh7smoq";
+const endpoint = "https://gateway.storjshare.io";
 
 // Enable SDK logging to console
 AWS.config.update({ logger: console });
@@ -17,7 +19,11 @@ const s3 = new AWS.S3({
 });
 
 const getImagesFromStorj = asyncHandler(async (req, res) => {
+  
   const publicKey = req.params.publicKey;
+
+  console.log(req, "req.body-----------------");
+  
 
   try {
     // Specify your bucket name here
@@ -30,8 +36,8 @@ const getImagesFromStorj = asyncHandler(async (req, res) => {
     };
 
     const data = await s3.listObjectsV2(listParams).promise();
+    // const data = "data";
 
-    console.log("Fetched images from Storj:", data);
 
     if (data.Contents.length === 0) {
       return res.status(404).json({ message: "No images found in the bucket" });
@@ -67,6 +73,9 @@ const getImagesFromStorj = asyncHandler(async (req, res) => {
 
 const uploadImageToStorj = asyncHandler(async (req, res) => {
   // Check if file is uploaded
+
+  console.log(req, "req.body-----------------");
+  
 
   const publicKey = req.body.publicKey;
 

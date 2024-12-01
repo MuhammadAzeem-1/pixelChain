@@ -1,29 +1,21 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  View,
-  Image,
-  FlatList,
-  TouchableOpacity,
-  Text,
-  ScrollView,
-} from "react-native";
-import * as MediaLibrary from "expo-media-library";
+import { View, Image, TouchableOpacity, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { icons } from "../../constants";
 import { useDispatch, useSelector } from "react-redux";
-import { addAlbum } from "../../context/Services/photosSlice";
-import { Ionicons } from "@expo/vector-icons"; // Import the icon library
 import * as ImagePicker from "expo-image-picker";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { router } from "expo-router";
+import { uploadFileToS3 } from "../../lib/albumsThunks";
+// import { uploadFileToS3 } from "../../context/Services/photosSlice";
 
 export default function uploadImage() {
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.error); // Access albums from Redux state
+  const { uploadComplete } = useSelector((state) => state.album); // Access albums from Redux state
   // upload Images ---
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
+
+  console.log(uploadComplete, "uploadComplete");
 
   useEffect(() => {
     (async () => {
@@ -47,9 +39,9 @@ export default function uploadImage() {
         const imageUri = result.assets[0].uri;
 
         setImage(imageUri); // This will set the image URI
-        console.log(imageData, "imageData-----");
-        
-        dispatch(addAlbum({ imageData: imageData }));
+        console.log(imageData, "imageData");
+
+        dispatch(uploadFileToS3({ fileUri: imageUri, fileName: imageData.fileName }));
       }
     }
   };
@@ -73,7 +65,10 @@ export default function uploadImage() {
   return (
     <SafeAreaView style={{ flex: 1, padding: 10 }} className="bg-[#EAF2FF]">
       <View className="flex flex-row justify-start">
-        <TouchableOpacity className="h-24 ">
+        <TouchableOpacity
+          className="h-24 "
+          onPress={() => router.push("/library")}
+        >
           <AntDesign name="arrowleft" size={24} color="black" />
         </TouchableOpacity>
 
@@ -90,7 +85,9 @@ export default function uploadImage() {
                 className={"rounded-sm"}
               />
             </View>
-            <Text className={"text-[#3AC0A0] text-sm"}>Sucess</Text>
+            <Text className={"text-[#3AC0A0] text-sm"}>
+              {uploadComplete ? "Success" : "Uploading"}
+            </Text>
           </View>
         </View>
       )}
@@ -98,8 +95,9 @@ export default function uploadImage() {
       {image && (
         <View className="flex justify-center items-center">
           <TouchableOpacity
-          onPress={() => router.push("/photos")} 
-          className="bg-[#3AC0A0] rounded-md px-2 py-1 mt-8">
+            onPress={() => router.push("/photos")}
+            className="bg-[#3AC0A0] rounded-md px-2 py-1 mt-8"
+          >
             <Text className="text-white text-sm">Go Back</Text>
           </TouchableOpacity>
         </View>

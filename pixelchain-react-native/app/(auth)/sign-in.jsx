@@ -16,6 +16,7 @@ import {
   useClearByFocusCell,
 } from "react-native-confirmation-code-field";
 import * as SecureStore from "expo-secure-store";
+import { router } from "expo-router";
 
 const { Value, Text: AnimatedText } = Animated;
 const CELL_COUNT = 4;
@@ -80,6 +81,7 @@ const SignIn = () => {
     if (validatePin(pin)) {
       // navigation.navigate("/"); // Direct user to the main content
       console.log("PIN is correct");
+      router.push("/photos");
     } else {
       Alert.alert("Error", "Invalid PIN");
     }
