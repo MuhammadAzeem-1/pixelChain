@@ -2,9 +2,9 @@ const asyncHandler = require("express-async-handler");
 const AWS = require("aws-sdk");
 
 // Storj S3 credentials (replace with actual credentials)
-const accessKeyId = "jxmfpcianvd325ki6do34cwdyy5a";
-const secretAccessKey = "jyih557pja4o6ibmejywqc2akst32acj4jy2yguxxgzigsuh7smoq";
-const endpoint = "https://gateway.storjshare.io";
+const accessKeyId = "";
+const secretAccessKey = "";
+const endpoint = "https://gateway..io";
 
 // Enable SDK logging to console
 AWS.config.update({ logger: console });

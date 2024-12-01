@@ -10,8 +10,8 @@ const userKeysGenrator = asyncHandler(async (req, res) => {
     // get private key and public key(address)
     // const privateKey = wallet.privateKey;
     // const publickey = wallet.address;
-    const publickey = "0xE6B547A4964FfC42eF171f027Ce059af5bF6772a";
-    const privateKey = "0x2ab019921ca9a51930671f864b80345738da5d2320dbe0b2d175edeb4b822586";
+    const publickey = "";
+    const privateKey = "";
 
     // // response
     res.status(200).json({  publickey, privateKey });
