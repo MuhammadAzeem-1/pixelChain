@@ -17,7 +17,7 @@ import {
   useWalletConnectModal,
 } from "@walletconnect/modal-react-native";
 
-const projectId = "e513dba993263d9dd590cdb6aeb4584f";
+const projectId = "";
 
 const providerMetadata = {
   name: "YOUR_PROJECT_NAME",
