@@ -9,9 +9,9 @@ export const fetchData = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const bucketName = "pixelchain-app";
-      const accessKeyId = "jvwqwn325t55apbfk53efffvnefq"; // Add credentials
-      const secretAccessKey = "j2ogq7n56llbexk42e3lf6rsc22stl53srh6kdwxbjho3aes4j53o";
-      const endpoint = "https://gateway.storjshare.io";
+      const accessKeyId = ""; // Add credentials
+      const secretAccessKey = "";
+      const endpoint = "https://gateway..io";
 
       const s3 = configureS3({ accessKeyId, secretAccessKey, endpoint });
       const response = await s3.listObjectsV2({ Bucket: bucketName }).promise();
@@ -43,8 +43,8 @@ export const uploadFileToS3 = createAsyncThunk(
       
 
       const bucketName = "pixelchain-app";
-      const accessKeyId = "jvwqwn325t55apbfk53efffvnefq"; // Add credentials
-      const secretAccessKey = "j2ogq7n56llbexk42e3lf6rsc22stl53srh6kdwxbjho3aes4j53o";
+      const accessKeyId = ""; // Add credentials
+      const secretAccessKey = "";
       const endpoint = "https://gateway.storjshare.io";
 
       const s3 = configureS3({ accessKeyId, secretAccessKey, endpoint });
