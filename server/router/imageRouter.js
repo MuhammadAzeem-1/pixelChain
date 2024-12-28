@@ -10,7 +10,7 @@ const upload = multer({ storage: storage });
 // multer middleware for file handling
 router.route("/image/uploadImage").post(upload.single('image'), uploadImageToStorj);
 
-router.route("/image/getImages/:publicKey").get(getImagesFromStorj);
+router.route("/image/getImages").get(getImagesFromStorj);
 
 
 module.exports = router;

@@ -2,9 +2,9 @@ const asyncHandler = require("express-async-handler");
 const AWS = require("aws-sdk");
 
 // Storj S3 credentials (replace with actual credentials)
-const accessKeyId = "";
-const secretAccessKey = "";
-const endpoint = "https://gateway..io";
+const accessKeyId = "jvwqwn325t55apbfk53efffvnefq";
+const secretAccessKey = "j2ogq7n56llbexk42e3lf6rsc22stl53srh6kdwxbjho3aes4j53o";
+const endpoint = "https://gateway.storjshare.io";
 
 // Enable SDK logging to console
 AWS.config.update({ logger: console });
@@ -27,41 +27,43 @@ const getImagesFromStorj = asyncHandler(async (req, res) => {
 
   try {
     // Specify your bucket name here
-    const bucketName = "pixelchain";
+    const bucketName = "pixelchain-app";
 
     // List objects in the bucket
     const listParams = {
       Bucket: bucketName,
-      Prefix: `${publicKey}/`,
     };
 
+    console.log(bucketName, "bucketName");
+    
+
     const data = await s3.listObjectsV2(listParams).promise();
-    // const data = "data";
+    
 
 
-    if (data.Contents.length === 0) {
-      return res.status(404).json({ message: "No images found in the bucket" });
-    }
+    // if (data.Contents.length === 0) {
+    //   return res.status(404).json({ message: "No images found in the bucket" });
+    // }
 
-    const files = data.Contents.map((file) => {
-      const fileKey = file.Key;
+    // const files = data.Contents.map((file) => {
+    //   const fileKey = file.Key;
 
-      const url = s3.getSignedUrl("getObject", {
-        Bucket: bucketName,
-        Key: fileKey,
-        Expires: 60 * 60, // URL expiration time in seconds (e.g., 1 hour)
-      });
+    //   const url = s3.getSignedUrl("getObject", {
+    //     Bucket: bucketName,
+    //     Key: fileKey,
+    //     Expires: 60 * 60, // URL expiration time in seconds (e.g., 1 hour)
+    //   });
 
-      return {
-        key: fileKey, // The file path in the bucket
-        url: url, // Public URL for file access
-        createdAt: file.LastModified, // File creation timestamp
-        size: file.Size, // File size in bytes
-      };
-    });
+    //   return {
+    //     key: fileKey, // The file path in the bucket
+    //     url: url, // Public URL for file access
+    //     createdAt: file.LastModified, // File creation timestamp
+    //     size: file.Size, // File size in bytes
+    //   };
+    // });
 
     // Return the list of file URLs to the client
-    res.json(files);
+    res.json(data);
   } catch (err) {
     console.error("Error fetching images from Storj:", err);
     res.status(500).json({

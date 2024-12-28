@@ -1,5 +1,6 @@
 {
   "expo": {
+    "owner": "azeem2",
     "name": "PixelChain_Native_App",
     "slug": "PixelChain_Native_App",
     "version": "1.0.0",
@@ -11,6 +12,9 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },
+    "cli": {
+      "appVersionSource": "remote"
     },
     "ios": {
       "supportsTablet": true,
