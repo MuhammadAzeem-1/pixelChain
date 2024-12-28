@@ -84,7 +84,7 @@ const ProfileModal = ({ handleProfileModal }) => {
               <TouchableOpacity
                 className={`bg-violet-900 rounded-xl p-3 flex flex-row justify-center items-center`}
               >
-                <Text className={`text-white font-psemibold text-base`}>
+                <Text className={`text-white font-semibold text-base`}>
                   Connet Wallet
                 </Text>
               </TouchableOpacity>

@@ -9,15 +9,15 @@ import {
 } from "react-native";
 import { icons, images } from "../../constants";
 import { Link, router } from "expo-router";
-import Modal from "react-native-modal";
-import ModalSetting from "../../components/modal/ModalSetting";
 import * as SecureStore from "expo-secure-store";
 import {
   WalletConnectModal,
   useWalletConnectModal,
 } from "@walletconnect/modal-react-native";
+import { PROJECT_ID } from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const projectId = "";
+const projectId = PROJECT_ID;
 
 const providerMetadata = {
   name: "YOUR_PROJECT_NAME",
@@ -31,32 +31,22 @@ const providerMetadata = {
 };
 
 const Profile = () => {
-  const [isModalVisible, setModelVisible] = useState(false);
   const { open, isConnected, address, provider } = useWalletConnectModal();
 
   const logout = async () => {
     await SecureStore.deleteItemAsync("userPin");
+    await AsyncStorage.clear();
 
     router.replace("/");
   };
 
-  const handleModal = () => {
-    setModelVisible(!isModalVisible);
-  };
-
   // Function to handle the
   const handleButtonPress = async () => {
-    console.log("isConnected", isConnected);
-
     if (isConnected) {
       return provider?.disconnect();
     }
     return open();
   };
-
-  // 0x71eb5156a09fba7ff368bc9a2e2c06dcc78f6572
-  console.log("isConnected", isConnected, address);
-  
 
   return (
     <SafeAreaView className="bg-slate-100	 h-full mt-8">
@@ -82,7 +72,7 @@ const Profile = () => {
           </View>
 
           <View className="mt-2">
-            <Text className={`text-black text-center font-psemibold text-lg`}>
+            <Text className={`text-black text-center font-semibold text-lg`}>
               User 1
             </Text>
 
@@ -97,84 +87,32 @@ const Profile = () => {
               0.2 ETH
             </Text>
           </View> */}
+          <View style={[styles.container, styles.boxShadows]}>
+            <Text style={styles.planTitle}>Free Plan</Text>
 
-          <View
-            className="w-full bg-white	rounded-lg p-6"
-            style={styles.boxShadows}
-          >
-            <Text className="text-xl font-bold font-pregular">Free Plan</Text>
-
-            {isConnected ? (
-              <>
-                {/* <Text>{isConnected ? address : "No Connected"}</Text> */}
-                <TouchableOpacity
-                  activeOpacity={0.7}
-                  className={`bg-secondary rounded-xl min-h-[42px] flex flex-row justify-center items-center`}
-                >
-                  <Text className={`text-primary font-psemibold text-lg`}>
-                    Connect Wallet
-                  </Text>
-                </TouchableOpacity>
-
-                            </>
+            {!isConnected ? (
+              <TouchableOpacity
+                onPress={handleButtonPress}
+                activeOpacity={0.8}
+                style={[styles.button, styles.connectButton]}
+              >
+                <Text style={[styles.buttonText, styles.connectText]}>
+                  Connect Wallet
+                </Text>
+              </TouchableOpacity>
             ) : (
               <TouchableOpacity
                 onPress={handleButtonPress}
-                activeOpacity={0.7}
-                className={`bg-secondary rounded-xl min-h-[62px] flex flex-row justify-center items-center`}
+                activeOpacity={0.8}
+                style={[styles.button, styles.disconnectButton]}
               >
-                <Text className={`text-primary font-psemibold text-lg`}>
-                  Connect Your Wallet
+                <Text style={[styles.buttonText, styles.disconnectText]}>
+                  Disconnect Wallet
                 </Text>
               </TouchableOpacity>
             )}
           </View>
         </View>
-        <View className="ml-4">
-          {/*  */}
-
-          <TouchableOpacity
-            onPress={handleModal}
-            className="flex flex-row items-center gap-4 mt-3 pl-4"
-          >
-            <Image
-              source={icons.settings}
-              className="w-4 h-4"
-              resizeMode="contain"
-            />
-            <Text className="text-lg">Settings</Text>
-          </TouchableOpacity>
-
-          {/*  */}
-
-          <Link href="/accountinfo">
-            <View className="flex flex-row items-center gap-4 mt-3">
-              <Image
-                source={icons.user}
-                className="w-4 h-4"
-                resizeMode="contain"
-              />
-              <Text className="text-lg">Account Info</Text>
-            </View>
-          </Link>
-
-          {/*  */}
-
-          <TouchableOpacity className="flex flex-row items-center gap-4 mt-0.5 pl-4">
-            <Image
-              source={icons.question}
-              className="w-4 h-4"
-              resizeMode="contain"
-            />
-            <Text className="text-lg">Help & Feedback</Text>
-          </TouchableOpacity>
-        </View>
-
-        <Modal isVisible={isModalVisible} onBackdropPress={handleModal}>
-          <View className="flex-1  flex justify-center items-center">
-            <ModalSetting handleModal={handleModal} />
-          </View>
-        </Modal>
 
         <WalletConnectModal
           projectId={projectId}
@@ -188,6 +126,56 @@ const Profile = () => {
 export default Profile;
 
 const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    padding: 16,
+    marginVertical: 10,
+  },
+  planTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    fontFamily: "System", // Customize with your font if applicable
+    color: "#333333",
+    marginBottom: 16,
+  },
+  button: {
+    borderRadius: 10,
+    minHeight: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 5, // For Android shadow
+  },
+  connectButton: {
+    backgroundColor: "#4CAF50", // Green for connect
+  },
+  disconnectButton: {
+    backgroundColor: "#F44336", // Red for disconnect
+  },
+  buttonText: {
+    fontSize: 18,
+    fontWeight: "600",
+    fontFamily: "System", // Customize with your font if applicable
+  },
+  connectText: {
+    color: "#ffffff",
+  },
+  disconnectText: {
+    color: "#ffffff",
+  },
+  boxShadows: {
+    shadowColor: "#000",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 6,
+    elevation: 4,
+  },
+
   boxShadows: {
     shadowColor: "rgba(0, 0, 0, 0.16)",
     shadowOffset: { width: 0, height: 1 },
@@ -196,3 +184,13 @@ const styles = StyleSheet.create({
     elevation: 6, // Adjust as needed for Android
   },
 });
+
+// const styles = StyleSheet.create({
+//   boxShadows: {
+//     shadowColor: "rgba(0, 0, 0, 0.16)",
+//     shadowOffset: { width: 0, height: 1 },
+//     shadowOpacity: 0.16,
+//     shadowRadius: 4,
+//     elevation: 6, // Adjust as needed for Android
+//   },
+// });

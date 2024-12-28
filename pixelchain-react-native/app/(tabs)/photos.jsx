@@ -18,6 +18,7 @@ const home = () => {
   const files = useSelector((state) => state.album.files);
   const loading = useSelector((state) => state.album.loading);
   const error = useSelector((state) => state.album.error);
+  const continuationToken = false
 
   const [isTabSelected, setIsTabSelected] = useState("images");  
 
@@ -28,31 +29,30 @@ const home = () => {
   const onRefresh = async () => {};
 
   useEffect(() => {
-    dispatch(fetchData());
+    dispatch(fetchData(continuationToken));
   }, []);
 
   return (
     <SafeAreaView className="bg-gray-50	 h-full">
       <Header />
 
-      <Slider
+      {/* <Slider
         setIsTabSelected={setIsTabSelected}
         isTabSelected={isTabSelected}
-      />
+      /> */}
 
-      <View>
+      {/* <View>
         <TouchableOpacity onPress={getImages}>
           <Text>Get Images</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
-      {isTabSelected === "images" && (
         <Images images={images} loading={loading} />
-      )}
 
-      {isTabSelected === "files" && <Files files={files} loading={loading} />}
 
-      {isTabSelected === "folders" && <Folders />}
+      {/* {isTabSelected === "files" && <Files files={files} loading={loading} />}
+
+      {isTabSelected === "folders" && <Folders />} */}
     </SafeAreaView>
   );
 };

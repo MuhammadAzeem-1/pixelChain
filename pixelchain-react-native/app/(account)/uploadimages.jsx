@@ -6,11 +6,10 @@ import * as ImagePicker from "expo-image-picker";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { router } from "expo-router";
 import { uploadFileToS3 } from "../../lib/albumsThunks";
-// import { uploadFileToS3 } from "../../context/Services/photosSlice";
 
 export default function uploadImage() {
   const dispatch = useDispatch();
-  const { uploadComplete } = useSelector((state) => state.album); // Access albums from Redux state
+  const { uploadComplete } = useSelector((state) => state.album);
   // upload Images ---
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
@@ -29,19 +28,21 @@ export default function uploadImage() {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
       quality: 1,
+      allowsMultipleSelection:false
     });
-
+    // allowsMultipleSelection
     if (!result?.canceled) {
       if (result.assets && result.assets.length > 0) {
-        const imageData = result.assets[0];
-        const imageUri = result.assets[0].uri;
+      
+       const imageData = result.assets[0];
+       const imageUri = result.assets[0].uri;
 
-        setImage(imageUri); // This will set the image URI
-        console.log(imageData, "imageData");
+       setImage(imageUri); // This will set the image URI
 
-        dispatch(uploadFileToS3({ fileUri: imageUri, fileName: imageData.fileName }));
+       dispatch(
+         uploadFileToS3({ fileUri: imageUri, fileName: imageData.fileName })
+       );
       }
     }
   };
@@ -50,9 +51,9 @@ export default function uploadImage() {
     return <Text>No access to media library</Text>;
   }
 
-  useEffect(() => {
-    pickImage();
-  }, []);
+  // useEffect(() => {
+  //   pickImage();
+  // }, []);
 
   // const uploadImage = async () => {
   //   dispatch(addAlbum({ imageData: selectedImage }));
@@ -91,6 +92,13 @@ export default function uploadImage() {
           </View>
         </View>
       )}
+
+<TouchableOpacity
+            onPress={()=>pickImage()}
+            className="bg-[#3AC0A0] rounded-md px-2 py-1 mt-8"
+          >
+            <Text className="text-white text-sm">upload</Text>
+          </TouchableOpacity>
 
       {image && (
         <View className="flex justify-center items-center">

@@ -1,6 +1,9 @@
-
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchData, uploadFileToS3 } from "../../lib/albumsThunks";
+import {
+  createFolder,
+  fetchData,
+  uploadFileToS3,
+} from "../../lib/albumsThunks";
 
 const initialState = {
   albums: [],
@@ -10,12 +13,23 @@ const initialState = {
   loading: false,
   error: null,
   uploadComplete: false,
+  currentFolder: null,
+  nextToken: null, // Pagination token
+  hasMore: true, // Flag to indicate if more data is available
 };
 
 const albumSlice = createSlice({
   name: "albums",
   initialState,
-  reducers: {},
+  reducers: {
+    updateCurrentFolder: (state, action) => {
+      state.currentFolder = action.payload;
+    },
+
+    clearImages(state) {
+      state.images = []; // Clear the images array
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchData.pending, (state) => {
@@ -24,18 +38,20 @@ const albumSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchData.fulfilled, (state, action) => {
-        const contents = action.payload.Contents || [];
-        console.log("contents", contents);
-        
-        
-        state.images = [];
-        state.files = [];
-        state.folders = [];
+        const { Contents, NextContinuationToken } = action.payload;
+
+        const contents = Contents || [];
+
         contents.forEach((item) => {
-          const {Key} = item;
+          const { Key } = item;
+
           
-          if (Key.endsWith(".png") || Key.endsWith(".jpg") || Key.endsWith(".jpeg")) {
-            
+
+          if (
+            Key.endsWith(".png") ||
+            Key.endsWith(".jpg") ||
+            Key.endsWith(".jpeg")
+          ) {
             state.images.push({
               imageName: Key.split("/").pop(),
               imageUrl: item.url,
@@ -45,9 +61,14 @@ const albumSlice = createSlice({
           } else if (Key.endsWith(".pdf") || Key.endsWith(".docx")) {
             state.files.push({ Key });
           } else {
-            state.folders.push({ Key });
+             state.folders.push({ Key });
+
+       
           }
         });
+
+        state.nextToken = NextContinuationToken;
+        state.hasMore = !!NextContinuationToken;
         state.loading = false;
         state.uploadComplete = true;
       })
@@ -63,11 +84,15 @@ const albumSlice = createSlice({
       .addCase(uploadFileToS3.fulfilled, (state, action) => {
         state.loading = false;
         state.uploadComplete = true;
-        console.log("action.payload", action.payload);
-        
+
         const uploadedFile = action.payload;
-        const { Key, FileSize, Location , PreSignedUrl, UploadDate} = uploadedFile;
-        if (Key.endsWith(".png") || Key.endsWith(".jpg") || Key.endsWith(".jpeg")) {
+        const { Key, FileSize, Location, PreSignedUrl, UploadDate } =
+          uploadedFile;
+        if (
+          Key.endsWith(".png") ||
+          Key.endsWith(".jpg") ||
+          Key.endsWith(".jpeg")
+        ) {
           state.images.push({
             imageName: Key.split("/").pop(),
             imageUrl: PreSignedUrl,
@@ -83,13 +108,28 @@ const albumSlice = createSlice({
       .addCase(uploadFileToS3.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+      })
+      // Handle createFolder
+      .addCase(createFolder.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createFolder.fulfilled, (state, action) => {
+        state.loading = false;
+
+        state.folders.push({ Key: action.payload.Key });
+        state.uploadComplete = true;
+      })
+      .addCase(createFolder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
   },
 });
 
+export const { updateCurrentFolder, clearImages } = albumSlice.actions;
+
 export default albumSlice.reducer;
-
-
 
 // import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import RNFS from "react-native-fs";
@@ -148,8 +188,7 @@ export default albumSlice.reducer;
 //   async ({ fileUri, fileName }, { rejectWithValue }) => {
 //     console.log("uploadFileToS3", fileName);
 //     console.log("fileYRI", fileUri);
-    
-    
+
 //     try {
 //       // Helper function to get MIME type based on the file extension
 //       function getMimeType(fileName) {
@@ -179,8 +218,6 @@ export default albumSlice.reducer;
 
 //       // Read file content from URI
 //       const fileContent = await RNFS.readFile(fileUri, "base64")
-       
-      
 
 //       // Create params for upload
 //       const params = {
@@ -193,7 +230,6 @@ export default albumSlice.reducer;
 //         },
 //         ContentType: file.type,
 //       };
-      
 
 //       //Upload file to S3
 //       const response = await s3.upload(params).promise();

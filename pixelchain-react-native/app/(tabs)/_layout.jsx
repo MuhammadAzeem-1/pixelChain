@@ -1,11 +1,13 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { Tabs } from "expo-router";
+import { Stack, Tabs } from "expo-router";
 // import { icons } from "../../constants";
 import { StatusBar } from "expo-status-bar";
 import Entypo from "@expo/vector-icons/Entypo";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
@@ -175,7 +177,6 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
-
       <StatusBar backgroundColor="#161622" style="light" />
     </>
   );

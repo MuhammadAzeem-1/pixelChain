@@ -29,12 +29,12 @@ const Header = () => {
   return (
     <View className="flex justify-between items-center flex-row mx-2 mt-2">
       <View className="flex-row items-start justify-center">
-        <Text className="text-xl font-psemibold text-blue-600">P</Text>
-        <Text className="text-xl font-psemibold text-red-500">i</Text>
-        <Text className="text-xl font-psemibold text-yellow-400">x</Text>
-        <Text className="text-xl font-psemibold text-blue-600">e</Text>
-        <Text className="text-xl font-psemibold text-green-500">l</Text>
-        <Text className="text-xl font-psemibold text-gray-700 ml-[2px]">
+        <Text className="text-xl font-semibold text-blue-600">P</Text>
+        <Text className="text-xl font-semibold text-red-500">i</Text>
+        <Text className="text-xl font-semibold text-yellow-400">x</Text>
+        <Text className="text-xl font-semibold text-blue-600">e</Text>
+        <Text className="text-xl font-semibold text-green-500">l</Text>
+        <Text className="text-xl font-semibold text-gray-700 ml-[2px]">
           Chain
         </Text>
       </View>

@@ -1,42 +1,42 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { fetchImagesByFolder } from "../../lib/albumsThunks";
 
-// Initial state for memories
 const initialState = {
-  memories: [],
-  loading: false,
-  error: null,
+  FolderImages: [], // To store images from the selected folder
+  loading: false,   // Loading state for the fetch request
+  error: null,      // Error state for handling errors
 };
 
 const memoriesSlice = createSlice({
   name: "memories",
   initialState,
   reducers: {
-    // Add a new memory
-    addMemory: (state, action) => {
-      state.memories.push(action.payload);
+    // You can add additional synchronous reducers here if needed
+    clearFolderImages(state) {
+      state.FolderImages = [];
+      state.error = null;
     },
-    // Edit an existing memory
-    editMemory: (state, action) => {
-      const { id, updatedData } = action.payload;
-      const index = state.memories.findIndex((memory) => memory.id === id);
-      if (index !== -1) {
-        state.memories[index] = { ...state.memories[index], ...updatedData };
-      }
-    },
-    // Delete a memory by id
-    deleteMemory: (state, action) => {
-      state.memories = state.memories.filter((memory) => memory.id !== action.payload);
-    },
-    // Loading and error handling (optional, useful for async actions)
-    setLoading: (state, action) => {
-      state.loading = action.payload;
-    },
-    setError: (state, action) => {
-      state.error = action.payload;
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      // Handle pending state
+      .addCase(fetchImagesByFolder.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      // Handle fulfilled state
+      .addCase(fetchImagesByFolder.fulfilled, (state, action) => {
+        state.loading = false;
+        state.FolderImages = action.payload.Contents; // Add fetched images to state
+      })
+      // Handle rejected state
+      .addCase(fetchImagesByFolder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to fetch images.";
+      });
   },
 });
 
-export const { addMemory, editMemory, deleteMemory, setLoading, setError } = memoriesSlice.actions;
+export const { clearFolderImages } = memoriesSlice.actions;
 
 export default memoriesSlice.reducer;

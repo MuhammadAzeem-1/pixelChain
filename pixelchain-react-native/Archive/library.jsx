@@ -32,7 +32,7 @@ const create = () => {
       
       <ScrollView className="px-4 my-6">
 
-        <Text className="text-2xl text-white font-psemibold">
+        <Text className="text-2xl text-white font-semibold">
           Upload Videos
         </Text>
 

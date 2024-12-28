@@ -1,31 +1,20 @@
-import {
-  Image,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  RefreshControl,
-  View,
-} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
 import { icons, images } from "../../constants";
-import { data, NewAlbumdata } from "../../constants/data";
-import Folders from "../../components/Folders";
-import Albums from "../../components/Albums";
 import Header from "../../components/Header";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
 import Feather from "@expo/vector-icons/Feather";
+import Modal from "react-native-modal";
+import ModalSetting from "../../components/modal/ModalSetting";
 
 const create = () => {
   const [refreshing, setRefreshing] = useState(false);
+  const [isModalVisible, setModelVisible] = useState(false);
 
-  const [form, setForm] = useState({
-    title: "",
-    video: null,
-    thumbnail: null,
-    prompt: "",
-  });
+  const handleModal = () => {
+    setModelVisible(!isModalVisible);
+  };
 
   const submit = () => {};
 
@@ -57,6 +46,7 @@ const create = () => {
   return (
     <SafeAreaView className="bg-white h-full">
       <Header />
+
       <View className="flex items-center">
         <View className="flex flex-row items-center h-[150px] justify-center gap-4 mx-4">
           <TouchableOpacity
@@ -91,21 +81,53 @@ const create = () => {
           </View>
         </TouchableOpacity>
 
-        <View className="mt-8 w-full">
-          {handleButtonMeta.map((item) => {
-            return (
-              <TouchableOpacity
-                key={item.id}
-                onPress={() => {}}
-                className="flex-row justify-start items-center gap-4 border-b-[1px] border-gray-100 p-2 ml-4"
-              >
-                <Image source={item.icon} className="w-8 h-8" />
-                <Text>{item.title}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
       </View>
+
+      <View className="ml-4">
+          {/*  */}
+
+          <TouchableOpacity
+            onPress={handleModal}
+            className="flex flex-row items-center gap-4 mt-3 pl-4"
+          >
+            <Image
+              source={icons.settings}
+              className="w-4 h-4"
+              resizeMode="contain"
+            />
+            <Text className="text-lg">Settings</Text>
+          </TouchableOpacity>
+
+          {/*  */}
+
+          <Link href="/accountinfo">
+            <View className="flex flex-row items-center gap-4 mt-3">
+              <Image
+                source={icons.user}
+                className="w-4 h-4"
+                resizeMode="contain"
+              />
+              <Text className="text-lg">Account Info</Text>
+            </View>
+          </Link>
+
+          {/*  */}
+
+          <TouchableOpacity className="flex flex-row items-center gap-4 mt-0.5 pl-4">
+            <Image
+              source={icons.question}
+              className="w-4 h-4"
+              resizeMode="contain"
+            />
+            <Text className="text-lg">Help & Feedback</Text>
+          </TouchableOpacity>
+        </View>
+
+        <Modal isVisible={isModalVisible} onBackdropPress={handleModal}>
+          <View className="flex-1  flex justify-center items-center">
+            <ModalSetting handleModal={handleModal} />
+          </View>
+        </Modal>
     </SafeAreaView>
   );
 };

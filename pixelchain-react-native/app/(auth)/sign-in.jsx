@@ -67,10 +67,7 @@ const SignIn = () => {
   const validatePin = async (enteredPin) => {
     const credentials = await SecureStore.getItemAsync("userPin");
 
-    
-
     if (credentials) {
-     
       return credentials === enteredPin;
     }
     return false;
@@ -89,23 +86,21 @@ const SignIn = () => {
 
   // Function to clear stored PIN
   const clearStoredPin = async () => {
-  
-      try {
-        await SecureStore.deleteItemAsync('userPin'); // Clear the stored PIN
-        setIsPinExist(false);
-        setFirstTimeText("");
-        setValue("");
-        
-        Alert.alert("Success", "Stored PIN has been removed. You can test the flow again.");
-        
-      } catch (error) {
-        console.error("Error clearing stored PIN:", error);
-        Alert.alert("Error", "Failed to clear stored PIN.");
-      }
+    try {
+      await SecureStore.deleteItemAsync("userPin"); // Clear the stored PIN
+      setIsPinExist(false);
+      setFirstTimeText("");
+      setValue("");
+
+      Alert.alert(
+        "Success",
+        "Stored PIN has been removed. You can test the flow again."
+      );
+    } catch (error) {
+      console.error("Error clearing stored PIN:", error);
+      Alert.alert("Error", "Failed to clear stored PIN.");
+    }
   };
-
-
-
 
   const renderCell = ({ index, symbol, isFocused }) => {
     const hasValue = Boolean(symbol);
@@ -175,7 +170,7 @@ const SignIn = () => {
           ? `Enter your 4-digit PIN to unlock access.`
           : "Create a secure 4-digit PIN to protect your account."}
       </Text>
-      <Text  className="!text-red-400 pt-8 text-center">{firstTimeText}</Text>
+      <Text className="!text-red-400 pt-8 text-center">{firstTimeText}</Text>
       <CodeField
         ref={ref}
         {...props}

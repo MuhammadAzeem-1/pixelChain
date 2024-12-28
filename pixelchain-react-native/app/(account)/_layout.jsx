@@ -21,6 +21,14 @@ const AccountInfoLayout = () => {
           }}
         />
 
+        <Stack.Screen
+          name="newfolder"
+          options={{
+            headerShown: false, // Set this to true or false depending on your needs
+            title: "New Folder", // You can customize the title for this screen
+          }}
+        />
+
         <StatusBar backgroundColor="#161622" style="light" />
       </Stack>
     </>

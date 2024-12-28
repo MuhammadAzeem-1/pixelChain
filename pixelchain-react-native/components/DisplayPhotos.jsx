@@ -32,13 +32,13 @@ const DisplayPhotos = ({ item, index, images, setDeleteImageData }) => {
   };
 
   return (
-    <View className="flex flex-row p-[1px]">
+    <View className="flex flex-row p-[2px]">
       <View>
         <TouchableOpacity
           onLongPress={handlelongPress}
           onPress={() => handleImagePress(index)}
         >
-          <Image source={{ uri: item.url }} className="w-28 h-24 mt-2" />
+          <Image source={{ uri: item.url }} className="w-28 h-24 " />
         </TouchableOpacity>
 
         {/* Full-screen image viewer */}

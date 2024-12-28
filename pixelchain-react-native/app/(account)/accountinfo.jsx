@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   ScrollView,
@@ -15,18 +15,53 @@ import { icons, images } from "../../constants";
 import { CustomButton, FormFeild } from "../../components";
 import { Link, router } from "expo-router";
 import TextBox from "../../components/TextBox";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignUp = () => {
   const [form, setForm] = useState({
-    username: "",
-    email: "",
-    password: "",
+    UserName: "",
+    accessId: "",
+    secretKey: "",
+    endpoint: "",
+    bucketName: "",
   });
+
+  const handlePress = async () => {
+    await AsyncStorage.setItem("123", JSON.stringify(form));
+  };
+
+  const getData = async (key) => {
+    try {
+      const data = await AsyncStorage.getItem(key);
+      if (data !== null) {
+        // The value exists
+        console.log("Retrieved value:", data);
+        return JSON.parse(data); // Parse if you stored JSON
+      } else {
+        console.log("No value found for the key:", key);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error retrieving data:", error);
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    getData("123").then((data) => {
+      setForm({
+        accessId: data.accessId,
+        secretKey: data.secretKey,
+        endpoint: data.endpoint,
+        bucketName: data.bucketName,
+      });
+    });
+  }, []);
 
   return (
     <SafeAreaView className="bg-violet-900		 h-full">
       <ScrollView>
-        <TouchableOpacity className="h-24 p-2">
+        <TouchableOpacity className="h-24 p-2" onPress={()=> router.push("/")}>
           <Image
             source={icons.arrow2}
             className="w-6 h-6 "
@@ -39,23 +74,29 @@ const SignUp = () => {
             <Text className="text-2xl font-pregular font-bold">
               Account Info
             </Text>
-            <Text className="text-base">To update and view account info</Text>
           </View>
 
-          <Image
-            source={images.profile}
-            className="w-20 h-20 rounded-full mt-4"
-            resizeMode="contain"
-          />
+          <View className="mt-8">
+            <TextBox
+              placeholder={"UserName"}
+              value={form.UserName}
+              editable={true}
+              Label={"User"}
+            />
 
-          <View>
+            <TextBox
+              placeholder={"Bucket Name"}
+              value={form.bucketName}
+              editable={false}
+              Label={"Bucket Name"}
+            />
 
-          <TextBox
-              placeholder={"wallet Id"}
-              value="0x53461267215+9626465"
+            <TextBox
+              placeholder={"Access Id"}
+              value={form.accessId}
               password={false}
               editable={false}
-              isWallet={true}
+              Label={"Access Id"}
             />
             {/* <View className="w-full h-12 px-4 bg-gray-200	 rounded-2xl border-2 border-gray-200 focus:border-secondary flex flex-row items-center mt-8">
               <TextInput
@@ -72,25 +113,25 @@ const SignUp = () => {
               />
             </View> */}
 
-            <TextBox placeholder={"username"} value="" />
-
             <TextBox
-              placeholder={"Email"}
-              value="text@gmail.com"
-              editable={false}
+              placeholder={"Secret Key"}
+              value={form.secretKey}
+              password={false}
+              Label={"Secret Key"}
             />
 
             <TextBox
-              placeholder={"current password"}
-              value=""
+              placeholder={"EndPoint"}
+              value={form.endpoint}
               editable={true}
-              password={true}
+              Label={"EndPoint"}
             />
 
             <View className="flex justify-end items-end mt-8 mb-32">
               <CustomButton
                 title={"Save"}
                 containerStyles={"w-44 min-h-[44px] my-4"}
+                handlePress={handlePress}
               />
             </View>
           </View>
