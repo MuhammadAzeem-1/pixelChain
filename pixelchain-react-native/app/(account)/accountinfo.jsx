@@ -15,7 +15,8 @@ import { icons, images } from "../../constants";
 import { CustomButton, FormFeild } from "../../components";
 import { Link, router } from "expo-router";
 import TextBox from "../../components/TextBox";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
+import { getCredentials } from "../../lib/Helper";
 
 const SignUp = () => {
   const [form, setForm] = useState({
@@ -47,21 +48,24 @@ const SignUp = () => {
     }
   };
 
-  useEffect(() => {
-    getData("123").then((data) => {
-      setForm({
-        accessId: data.accessId,
-        secretKey: data.secretKey,
-        endpoint: data.endpoint,
-        bucketName: data.bucketName,
-      });
+  const getUserInfo = async () => {
+    const data = await getCredentials("123");
+    setForm({
+      accessId: data.accessId,
+      secretKey: data.secretKey,
+      endpoint: data.endpoint,
+      bucketName: data.bucketName,
     });
+  };
+
+  useEffect(() => {
+    getUserInfo();
   }, []);
 
   return (
     <SafeAreaView className="bg-violet-900		 h-full">
       <ScrollView>
-        <TouchableOpacity className="h-24 p-2" onPress={()=> router.push("/")}>
+        <TouchableOpacity className="h-24 p-2" onPress={() => router.push("/photos")}>
           <Image
             source={icons.arrow2}
             className="w-6 h-6 "

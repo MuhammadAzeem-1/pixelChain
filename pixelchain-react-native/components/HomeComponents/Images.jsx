@@ -14,17 +14,15 @@ import { icons } from "../../constants";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../lib/albumsThunks";
 import { clearImages } from "../../context/Services/photosSlice";
-import AntDesign from '@expo/vector-icons/AntDesign';
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 const Images = ({ images, loading }) => {
   const dispatch = useDispatch();
-  const [groupedAlbums, setGroupedAlbums] = useState([]);
+  const [groupedAlbums, setGroupedAlbums] = useState();
   const [refreshing, setRefreshing] = useState(false);
 
   const nextToken = useSelector((state) => state.album.nextToken);
   const hasMore = useSelector((state) => state.album.hasMore);
-
-  console.log(hasMore);
 
   const onRefresh = async () => {
     dispatch(clearImages());
@@ -65,6 +63,7 @@ const Images = ({ images, loading }) => {
 
   const renderGroup = ({ item, index }) => {
     const isToday = moment(item.date).isSame(moment(), "day"); // Check if the date is today
+
     const displayDate = isToday
       ? "Today"
       : moment(item.date).format("DD MMM YYYY");
@@ -84,7 +83,7 @@ const Images = ({ images, loading }) => {
     };
 
     return (
-      <View className="h-full">
+      <View>
         <View className="flex flex-row justify-between items-center mt-4">
           <Text className="ml-1 text-sm text-black font-medium">
             {displayDate}
@@ -150,9 +149,6 @@ const Images = ({ images, loading }) => {
               // }}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-              ListFooterComponent={() =>
-                hasMore ? <Text>Loading more...</Text> : null
               }
             />
           </View>

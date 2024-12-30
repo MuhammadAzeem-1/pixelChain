@@ -16,6 +16,8 @@ import { CustomButton, FormFeild } from "../../components";
 import { Link, router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AWS from "aws-sdk";
+import * as SecureStore from "expo-secure-store";
+
 
 const SignUp = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -32,7 +34,6 @@ const SignUp = () => {
   };
 
   const submit = async () => {
-    // router.replace("/sign-in"); // Uncomment if using a router
     try {
       setIsSubmitting(true);
 
@@ -47,13 +48,23 @@ const SignUp = () => {
 
       // Check if the bucket exists
 
-      const bucketName = "pixelchain-app";
+      const bucketName = form.bucketName;
       await s3
         .headBucket({ Bucket: bucketName })
         .promise()
         .then(async () => {
           // If the bucket exists, save form data and proceed
-          await AsyncStorage.setItem(
+          // await AsyncStorage.setItem(
+          //   "123",
+          //   JSON.stringify({
+          //     bucketName: form.bucketName,
+          //     accessId: form.accessId,
+          //     secretKey: form.secretKey,
+          //     endpoint: form.endpoint,
+          //   })
+          // );
+
+          await SecureStore.setItemAsync(
             "123",
             JSON.stringify({
               bucketName: form.bucketName,
@@ -67,7 +78,7 @@ const SignUp = () => {
           setTimeout(() => {
             setIsSubmitting(false);
             router.replace("/sign-in"); // Uncomment if using a router
-          }, 4000);
+          }, 2000);
         })
         .catch((error) => {
           console.error("Bucket verification failed:", error);

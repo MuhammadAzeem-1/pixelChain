@@ -6,12 +6,13 @@ const initialState = {
   loading: false,   // Loading state for the fetch request
   error: null,      // Error state for handling errors
 };
+// asd
 
 const memoriesSlice = createSlice({
   name: "memories",
   initialState,
   reducers: {
-    // You can add additional synchronous reducers here if needed
+    // You can add additional synchronous reducers  if needed
     clearFolderImages(state) {
       state.FolderImages = [];
       state.error = null;

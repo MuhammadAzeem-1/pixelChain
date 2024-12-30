@@ -67,9 +67,8 @@ const bookmark = () => {
 
     dispatch(fetchImagesByFolder({ folderName: Name, continuationToken: null }))
       .then((response) => {
-        setTimeout(() => {
           router.push("/newfolder");
-        }, 5000);
+
       })
       .catch((error) => {
         console.error("Error fetching images:", error);

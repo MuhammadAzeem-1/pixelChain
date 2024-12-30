@@ -5,12 +5,14 @@ import {
   View,
   TouchableOpacity,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 import * as ImagePicker from "expo-image-picker";
 import { uploadToS3WithFolder } from "../../lib/albumsThunks";
 import DisplayPhotos from "../../components/DisplayPhotos";
+import { Modal } from "react-native-web";
 
 const NewFolder = () => {
   const dispatch = useDispatch(); // Access Redux dispatch function
@@ -18,7 +20,6 @@ const NewFolder = () => {
   const images = useSelector((state) => state.memories.FolderImages);
   const loading = useSelector((state) => state.memories.FolderImages);
 
-  console.log(images, "---------------------images");
   // upload Images ---
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [image, setImage] = useState(null);
@@ -93,8 +94,17 @@ const NewFolder = () => {
 
       {/* Content Section */}
 
+      {loading && (
+        <Modal transparent={true} animationType="fade">
+          <View style={styles.overlay}>
+            <ActivityIndicator size="large" color="#fff" />
+            <Text style={styles.loadingText}>Loading...</Text>
+          </View>
+        </Modal>
+      )}
+
       <ScrollView>
-        <View style={styles.content}>
+        <View className="flex flex-row flex-wrap  h-full">
           {transformedImages.map((image, index) => (
             <DisplayPhotos
               key={index}
@@ -143,6 +153,18 @@ const styles = StyleSheet.create({
   contentText: {
     fontSize: 16,
     color: "#333",
+  },
+
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    marginTop: 8,
+    color: "#fff",
+    fontSize: 16,
   },
 });
 

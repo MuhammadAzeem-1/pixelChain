@@ -15,7 +15,7 @@ const initialState = {
   uploadComplete: false,
   currentFolder: null,
   nextToken: null, // Pagination token
-  hasMore: true, // Flag to indicate if more data is available
+  hasMore: false, // Flag to indicate if more data is available
 };
 
 const albumSlice = createSlice({
@@ -99,9 +99,9 @@ const albumSlice = createSlice({
             modifiedDate: UploadDate,
             size: FileSize,
           });
-        } else if (Key.endsWith(".pdf") || Key.endsWith(".docx")) {
+        } else if (Key.endsWith(".pdf") || Key.endsWith(".docx")) {          
           state.files.push(uploadedFile);
-        } else {
+        } else {          
           state.folders.push(uploadedFile);
         }
       })

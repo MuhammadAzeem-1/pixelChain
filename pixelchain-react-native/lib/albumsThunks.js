@@ -1,32 +1,33 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { configureS3 } from "./s3service";
-import { getCredientaisl, getMimeType } from "./Helper";
+import { getCredentials, getMimeType } from "./Helper";
+import { ACCESS_ID, SECRET_KEY, ENDPOINT, BUCKET_NAME } from "@env";
 
-const data = getCredientaisl();
+// const data = getCredentials();
 
 // Async thunk to fetch images on app load
 export const fetchData = createAsyncThunk(
   "albums/fetchData",
-  async ({ continuationToken  }, { rejectWithValue }) => {
+  async ({ continuationToken }, { rejectWithValue }) => {
     try {
       // check agian _j
 
-      const bucketName = data._j.bucketName;
-      const accessKeyId = data._j.accessId; // Add credentials
-      const secretAccessKey = data._j.secretKey;
-      const endpoint = data._j.endpoint;
-      
+      const data = await getCredentials();
+
+      const bucketName = data.bucketName ? data.bucketName : BUCKET_NAME;
+      const accessKeyId = data.accessId ? data.accessId : ACCESS_ID; // Add credentials
+      const secretAccessKey = data.secretKey ? data.secretKey : SECRET_KEY;
+      const endpoint = data.endpoint ? data.endpoint : ENDPOINT;
 
       const s3 = configureS3({ accessKeyId, secretAccessKey, endpoint });
 
       const params = {
         Bucket: bucketName,
-        MaxKeys: 9, // Fetch 10 images at a time
-        ContinuationToken : continuationToken
+        MaxKeys: 30, // Fetch 10 images at a time
+        ContinuationToken: continuationToken,
       };
-      
 
-      const response = await s3.listObjectsV2(params).promise()
+      const response = await s3.listObjectsV2(params).promise();
 
       const itemsWithUrls = response.Contents.map((item) => ({
         ...item,
@@ -34,14 +35,14 @@ export const fetchData = createAsyncThunk(
           Bucket: bucketName,
           Key: item.Key,
           Expires: 60 * 60, // 1 hour
-          
         }),
-        LastModified: item.LastModified.toISOString()
+        LastModified: item.LastModified.toISOString(),
       }));
 
-      
-
-      return { Contents: itemsWithUrls , NextContinuationToken: response.NextContinuationToken, };
+      return {
+        Contents: itemsWithUrls,
+        NextContinuationToken: response.NextContinuationToken,
+      };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -53,10 +54,12 @@ export const uploadFileToS3 = createAsyncThunk(
   "albums/uploadFile",
   async ({ fileUri, fileName }, { rejectWithValue }) => {
     try {
-      const bucketName = data._j.bucketName;
-      const accessKeyId = data._j.accessId; // Add credentials
-      const secretAccessKey = data._j.secretKey;
-      const endpoint = data._j.endpoint;
+      const data = await getCredentials();
+
+      const bucketName = data.bucketName ? data.bucketName : BUCKET_NAME;
+      const accessKeyId = data.accessId ? data.accessId : ACCESS_ID; // Add credentials
+      const secretAccessKey = data.secretKey ? data.secretKey : SECRET_KEY;
+      const endpoint = data.endpoint ? data.endpoint : ENDPOINT;
 
       const s3 = configureS3({ accessKeyId, secretAccessKey, endpoint });
 
@@ -72,8 +75,10 @@ export const uploadFileToS3 = createAsyncThunk(
         ContentType: fileType,
       };
 
-
       const response = await s3.upload(params).promise();
+
+      console.log(response , "------=-=-=-=");
+      
 
       const fileSize = filepath.size;
       const uploadDate = new Date().toISOString();
@@ -105,10 +110,10 @@ export const createFolder = createAsyncThunk(
     try {
       console.log("folderName", folderName);
 
-      const bucketName = data._j.bucketName;
-      const accessKeyId = data._j.accessId; // Add credentials
-      const secretAccessKey = data._j.secretKey;
-      const endpoint = data._j.endpoint;
+      const bucketName = data.bucketName ? data.bucketName : BUCKET_NAME;
+      const accessKeyId = data.accessId ? data.accessId : ACCESS_ID; // Add credentials
+      const secretAccessKey = data.secretKey ? data.secretKey : SECRET_KEY;
+      const endpoint = data.endpoint ? data.endpoint : ENDPOINT;
 
       const s3 = configureS3({ accessKeyId, secretAccessKey, endpoint });
 
@@ -138,12 +143,12 @@ export const uploadToS3WithFolder = createAsyncThunk(
       console.log("fileURI", fileUri);
       console.log("folderName", folderName);
 
-      const bucketName = data._j.bucketName;
-      const accessKeyId = data._j.accessId; // Add credentials
-      const secretAccessKey = data._j.secretKey;
-      const endpoint = data._j.endpoint;
+      const data = await getCredentials();
 
-
+      const bucketName = data.bucketName ? data.bucketName : BUCKET_NAME;
+      const accessKeyId = data.accessId ? data.accessId : ACCESS_ID; // Add credentials
+      const secretAccessKey = data.secretKey ? data.secretKey : SECRET_KEY;
+      const endpoint = data.endpoint ? data.endpoint : ENDPOINT;
 
       const s3 = configureS3({ accessKeyId, secretAccessKey, endpoint });
 
@@ -189,17 +194,18 @@ export const uploadToS3WithFolder = createAsyncThunk(
   }
 );
 
-
 // ----------------------
 
 export const fetchImagesByFolder = createAsyncThunk(
   "albums/fetchImagesByFolder",
   async ({ folderName, continuationToken }, { rejectWithValue }) => {
     try {
-      const bucketName = data._j.bucketName;
-      const accessKeyId = data._j.accessId; // Add credentials
-      const secretAccessKey = data._j.secretKey;
-      const endpoint = data._j.endpoint;
+      const data = await getCredentials();
+
+      const bucketName = data.bucketName ? data.bucketName : BUCKET_NAME;
+      const accessKeyId = data.accessId ? data.accessId : ACCESS_ID; // Add credentials
+      const secretAccessKey = data.secretKey ? data.secretKey : SECRET_KEY;
+      const endpoint = data.endpoint ? data.endpoint : ENDPOINT;
 
       const s3 = configureS3({ accessKeyId, secretAccessKey, endpoint });
 
@@ -212,9 +218,12 @@ export const fetchImagesByFolder = createAsyncThunk(
 
       const response = await s3.listObjectsV2(params).promise();
 
-      const itemsWithUrls = response.Contents.filter(item =>
-        item.Key.startsWith(`${folderName}/`) && 
-        (item.Key.endsWith(".png") || item.Key.endsWith(".jpg") || item.Key.endsWith(".jpeg"))
+      const itemsWithUrls = response.Contents.filter(
+        (item) =>
+          item.Key.startsWith(`${folderName}/`) &&
+          (item.Key.endsWith(".png") ||
+            item.Key.endsWith(".jpg") ||
+            item.Key.endsWith(".jpeg"))
       ).map((item) => ({
         ...item,
         url: s3.getSignedUrl("getObject", {

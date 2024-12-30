@@ -73,12 +73,13 @@ const SignIn = () => {
     return false;
   };
 
-  const handlePinComplete = (pin) => {
+  const handlePinComplete = async (pin) => {
     // Compare the entered PIN with stored encrypted PIN
     if (validatePin(pin)) {
       // navigation.navigate("/"); // Direct user to the main content
+      
       console.log("PIN is correct");
-      router.push("/photos");
+     router.push("/photos");
     } else {
       Alert.alert("Error", "Invalid PIN");
     }

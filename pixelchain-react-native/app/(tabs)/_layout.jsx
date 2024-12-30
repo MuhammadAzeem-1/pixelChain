@@ -28,13 +28,13 @@ const TabIcon = ({ icon, color, name, focused }) => {
         />
       )}
 
-      {icon === "camera" && (
+      {/* {icon === "camera" && (
         <Entypo
           name="camera"
           size={focused ? 28 : 24}
           color={focused ? "#FFA001" : "black"}
         />
-      )}
+      )} */}
 
       {icon === "library" && (
         <Ionicons
@@ -67,7 +67,7 @@ const TabsLayout = () => {
     <>
       <Tabs
         screenOptions={{
-          tabBarShowLabel: false,
+          tabBarShowLabel: true,
           tabBarActiveTintColor: "#FFA001",
           tabBarInactiveTintColor: "#CDCDE0",
           tabBarStyle: {
@@ -104,7 +104,7 @@ const TabsLayout = () => {
         <Tabs.Screen
           name="memories"
           options={{
-            title: "Memories",
+            title: "Folders",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
@@ -117,7 +117,7 @@ const TabsLayout = () => {
           }}
         />
 
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="camera"
           options={{
             title: "camera",
@@ -143,12 +143,12 @@ const TabsLayout = () => {
               </View>
             ),
           }}
-        />
+        /> */}
 
         <Tabs.Screen
           name="library"
           options={{
-            title: "Library",
+            title: "Settings",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
@@ -164,7 +164,7 @@ const TabsLayout = () => {
         <Tabs.Screen
           name="profile"
           options={{
-            title: "Profile",
+            title: "Payments",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
