@@ -83,7 +83,7 @@ const Images = ({ images, loading }) => {
     };
 
     return (
-      <View>
+      <View key={index} className="flex flex-col justify-between">
         <View className="flex flex-row justify-between items-center mt-4">
           <Text className="ml-1 text-sm text-black font-medium">
             {displayDate}
@@ -96,7 +96,7 @@ const Images = ({ images, loading }) => {
             )} */}
         </View>
 
-        <View className="flex flex-row flex-wrap  h-full">
+        <View className="flex flex-row flex-wrap ">
           {item.images.map((image, index) => (
             <DisplayPhotos
               item={image}
@@ -115,7 +115,7 @@ const Images = ({ images, loading }) => {
   }, [images]);
 
   return (
-    <View className={"max-h-[80%] "}>
+    <View className={"max-h-[85%] "}>
       {loading && !hasMore ? (
         <View
           style={{
@@ -131,11 +131,12 @@ const Images = ({ images, loading }) => {
         </View>
       ) : (
         <>
-          <View className="max-h-[100%] ">
+          <View className="">
             <FlatList
               data={groupedAlbums}
               keyExtractor={(item) => item.date}
               renderItem={renderGroup}
+              scrollEnabled={true}
               ListEmptyComponent={() => (
                 <EmptyState
                   title="No images Found"
