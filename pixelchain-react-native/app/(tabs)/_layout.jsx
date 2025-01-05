@@ -117,7 +117,7 @@ const TabsLayout = () => {
           }}
         />
 
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="camera"
           options={{
             title: "camera",
@@ -142,8 +142,8 @@ const TabsLayout = () => {
                 <TabIcon icon={"camera"} />
               </View>
             ),
-          }}
-        />
+          }}r
+        /> */}
 
         <Tabs.Screen
           name="library"

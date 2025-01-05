@@ -35,60 +35,59 @@ const SignUp = () => {
 
   const submit = async () => {
     try {
-      router.replace("/sign-in")
-      // setIsSubmitting(true);
+      setIsSubmitting(true);
 
-      // // Configure AWS with the user's provided details
-      // const s3 = new AWS.S3({
-      //   accessKeyId: form.accessId,
-      //   secretAccessKey: form.secretKey,
-      //   endpoint: form.endpoint,
-      //   s3ForcePathStyle: true, // Required for custom endpoints
-      //   signatureVersion: "v4",
-      // });
+      // Configure AWS with the user's provided details
+      const s3 = new AWS.S3({
+        accessKeyId: form.accessId,
+        secretAccessKey: form.secretKey,
+        endpoint: form.endpoint,
+        s3ForcePathStyle: true, // Required for custom endpoints
+        signatureVersion: "v4",
+      });
 
-      // // Check if the bucket exists
+      // Check if the bucket exists
 
-      // const bucketName = form.bucketName;
-      // await s3
-      //   .headBucket({ Bucket: bucketName })
-      //   .promise()
-      //   .then(async () => {
-      //     // If the bucket exists, save form data and proceed
-      //     // await AsyncStorage.setItem(
-      //     //   "123",
-      //     //   JSON.stringify({
-      //     //     bucketName: form.bucketName,
-      //     //     accessId: form.accessId,
-      //     //     secretKey: form.secretKey,
-      //     //     endpoint: form.endpoint,
-      //     //   })
-      //     // );
+      const bucketName = form.bucketName;
+      await s3
+        .headBucket({ Bucket: bucketName })
+        .promise()
+        .then(async () => {
+          // If the bucket exists, save form data and proceed
+          // await AsyncStorage.setItem(
+          //   "123",
+          //   JSON.stringify({
+          //     bucketName: form.bucketName,
+          //     accessId: form.accessId,
+          //     secretKey: form.secretKey,
+          //     endpoint: form.endpoint,
+          //   })
+          // );
 
-      //     await SecureStore.setItemAsync(
-      //       "123",
-      //       JSON.stringify({
-      //         bucketName: form.bucketName,
-      //         accessId: form.accessId,
-      //         secretKey: form.secretKey,
-      //         endpoint: form.endpoint,
-      //       })
-      //     );
+          await SecureStore.setItemAsync(
+            "123",
+            JSON.stringify({
+              bucketName: form.bucketName,
+              accessId: form.accessId,
+              secretKey: form.secretKey,
+              endpoint: form.endpoint,
+            })
+          );
 
-      //     // Simulate success, then redirect
-      //     setTimeout(() => {
-      //       setIsSubmitting(false);
-      //       router.replace("/sign-in"); // Uncomment if using a router
-      //     }, 2000);
-      //   })
-      //   .catch((error) => {
-      //     console.error("Bucket verification failed:", error);
-      //     Alert.alert(
-      //       "Error",
-      //       "The specified bucket does not exist or the credentials are invalid. Please check and try again."
-      //     );
-      //     setIsSubmitting(false);
-      //   });
+          // Simulate success, then redirect
+          setTimeout(() => {
+            setIsSubmitting(false);
+            router.replace("/sign-in"); // Uncomment if using a router
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("Bucket verification failed:", error);
+          Alert.alert(
+            "Error",
+            "The specified bucket does not exist or the credentials are invalid. Please check and try again."
+          );
+          setIsSubmitting(false);
+        });
     } catch (error) {
       Alert.alert("Error", `Error storing form data: ${error}`);
       setIsSubmitting(false);

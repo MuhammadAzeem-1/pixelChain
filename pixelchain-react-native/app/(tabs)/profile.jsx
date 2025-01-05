@@ -19,7 +19,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import PaymentMethods from "../../components/payments/PaymentMethods";
 // new
 
-
 const projectId = "e513dba993263d9dd590cdb6aeb4584f";
 
 const providerMetadata = {
@@ -34,7 +33,7 @@ const providerMetadata = {
 };
 
 const Profile = () => {
-  const { open, isConnected, address, provider } = useWalletConnectModal();
+  const { open, isConnected, address, provider } = useWalletConnectModal();  
 
   const logout = async () => {
     await SecureStore.deleteItemAsync("userPin");
@@ -117,10 +116,7 @@ const Profile = () => {
           </View>
         </View>
 
-
-        <View>
-          <PaymentMethods address={address}/>
-        </View>
+        <View>{isConnected && <PaymentMethods address={address} />}</View>
 
         <WalletConnectModal
           projectId={projectId}
