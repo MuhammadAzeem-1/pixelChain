@@ -11,7 +11,7 @@ import 'react-native-get-random-values'; // Required for WalletConnect
 import { Buffer } from 'buffer';
 
 
-export default function App() {
+export default function index() {
   useEffect(() => {
     const fetchStoredPasscode = async () => {
       const credentials = await SecureStore.getItemAsync("userPin");

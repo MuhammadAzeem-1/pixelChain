@@ -117,7 +117,7 @@ const TabsLayout = () => {
           }}
         />
 
-        {/* <Tabs.Screen
+        <Tabs.Screen
           name="camera"
           options={{
             title: "camera",
@@ -143,7 +143,7 @@ const TabsLayout = () => {
               </View>
             ),
           }}
-        /> */}
+        />
 
         <Tabs.Screen
           name="library"

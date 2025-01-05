@@ -1,7 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { configureS3 } from "./s3service";
 import { getCredentials, getMimeType } from "./Helper";
-import { ACCESS_ID, SECRET_KEY, ENDPOINT, BUCKET_NAME } from "@env";
+// import { ACCESS_ID, SECRET_KEY, ENDPOINT, BUCKET_NAME } from "@env";
+
+const ACCESS_ID = ""
+const SECRET_KEY  = ""
+const ENDPOINT = ""
+const BUCKET_NAME = ""
 
 // const data = getCredentials();
 

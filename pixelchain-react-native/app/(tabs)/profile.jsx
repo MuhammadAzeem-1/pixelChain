@@ -14,10 +14,13 @@ import {
   WalletConnectModal,
   useWalletConnectModal,
 } from "@walletconnect/modal-react-native";
-import { PROJECT_ID } from "@env";
+// import { PROJECT_ID } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import PaymentMethods from "../../components/payments/PaymentMethods";
+// new
 
-const projectId = PROJECT_ID;
+
+const projectId = "e513dba993263d9dd590cdb6aeb4584f";
 
 const providerMetadata = {
   name: "YOUR_PROJECT_NAME",
@@ -112,6 +115,11 @@ const Profile = () => {
               </TouchableOpacity>
             )}
           </View>
+        </View>
+
+
+        <View>
+          <PaymentMethods address={address}/>
         </View>
 
         <WalletConnectModal
