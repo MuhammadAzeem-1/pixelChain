@@ -40,9 +40,9 @@ const Header = () => {
       </View>
 
       <View className="flex flex-row items-center gap-4">
-        <TouchableOpacity onPress={handleAddModal}>
+        {/* <TouchableOpacity onPress={handleAddModal}>
           <Entypo name="plus" size={24} color="black" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity onPress={handleProfileModal}>
           <View className="w-8 h-8 border border-secondary rounded-full px-1 py-1 flex justify-center items-center">

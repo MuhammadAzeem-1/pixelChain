@@ -48,7 +48,7 @@ const create = () => {
       <Header />
 
       <View className="flex items-center">
-        <View className="flex flex-row items-center h-[150px] justify-center gap-4 mx-4">
+        {/* <View className="flex flex-row items-center h-[150px] justify-center gap-4 mx-4">
           <TouchableOpacity
             className="flex-row items-center justify-evenly w-[120px] py-4 bg-blue-100 rounded-xl"
             onPress={() => {}}
@@ -66,10 +66,10 @@ const create = () => {
             <Image source={icons.trash} className="w-[15px] h-[15px]" />
             <Text className="text-[14px] font-base text-gray-800">Trash</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         <TouchableOpacity
-          className="flex-row justify-center items-center gap-4 w-full"
+          className="flex-row justify-center items-center gap-4 w-full mt-8"
           onPress={() => router.push("/uploadimages")}
         >
           <View className="flex justify-center items-center w-[90%] h-32 border border-dashed border-[#6FBAFF] bg-[#EAF2FF]">

@@ -28,7 +28,22 @@ const bookmark = () => {
   const loading = useSelector((state) => state.album.loading);
   const error = useSelector((state) => state.album.error);
 
-  console.log(folders, "folders ---- () -----");
+  const getRandomPastDate = () => {
+    const today = new Date();
+    const pastTime = today.getTime() - Math.random() * 31536000000; // Random time within the last year (365 days * 24 hours * 60 minutes * 60 seconds * 1000 ms)
+    return new Date(pastTime);
+  };
+
+  const formatDate = (date) => {
+    const year = date.getUTCFullYear();
+    const month = date.getUTCMonth() + 1; // Months are zero-based
+    const day = date.getUTCDate();
+    return `${year}-${month}-${day}`;
+  };
+
+  const randomDate = getRandomPastDate();
+
+
 
   const [modalVisible, setModalVisible] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
@@ -74,6 +89,9 @@ const bookmark = () => {
         console.error("Error fetching images:", error);
       });
   };
+  
+  console.log(folders, "folders ---- () -----");
+  
 
   return (
     <SafeAreaView className="bg-white	h-full">
@@ -83,7 +101,7 @@ const bookmark = () => {
         {/* Create Folder Button */}
         <View className="flex justify-end items-end  w-full px-1">
           <TouchableOpacity
-            className="bg-blue-500 rounded-full flex flex-row justify-start items-center px-2 py-1 mb-4"
+            className="bg-blue-500 rounded-md flex flex-row justify-start items-center px-2 py-1 mb-4"
             onPress={() => setModalVisible(true)}
           >
             <AntDesign name="plus" size={15} color="white" />
@@ -106,6 +124,7 @@ const bookmark = () => {
                           ? item?.Key?.slice(0, -1)
                           : item.Key}
                       </Text>
+                      <Text className="text-xs text-gray-100 ">Created At: {formatDate(randomDate)}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -128,9 +147,9 @@ const bookmark = () => {
           visible={modalVisible}
           onRequestClose={() => setModalVisible(false)}
         >
-          <View className="flex-1 justify-center items-center bg-black bg-opacity-90">
+          <View className="flex-1 justify-center items-center bg-gray-100 bg-opacity-90">
             <View className="bg-white rounded-lg p-6 w-80">
-              <Text className="text-lg font-bold mb-4">Create New Folder</Text>
+              <Text className="text-lg font-bold mb-4">Enter New Folder Name</Text>
               <TextInput
                 className="border p-2 mb-4 rounded"
                 placeholder="Enter folder name"

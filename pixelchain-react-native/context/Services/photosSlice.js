@@ -45,8 +45,6 @@ const albumSlice = createSlice({
         contents.forEach((item) => {
           const { Key } = item;
 
-          
-
           if (
             Key.endsWith(".png") ||
             Key.endsWith(".jpg") ||
@@ -61,9 +59,13 @@ const albumSlice = createSlice({
           } else if (Key.endsWith(".pdf") || Key.endsWith(".docx")) {
             state.files.push({ Key });
           } else {
-             state.folders.push({ Key });
+            const keyExists = state.folders.some(
+              (folder) => folder.Key === Key
+            );
 
-       
+            if (!keyExists) {
+              state.folders.push({ Key });
+            }
           }
         });
 
@@ -99,9 +101,9 @@ const albumSlice = createSlice({
             modifiedDate: UploadDate,
             size: FileSize,
           });
-        } else if (Key.endsWith(".pdf") || Key.endsWith(".docx")) {          
+        } else if (Key.endsWith(".pdf") || Key.endsWith(".docx")) {
           state.files.push(uploadedFile);
-        } else {          
+        } else {
           state.folders.push(uploadedFile);
         }
       })

@@ -1,15 +1,28 @@
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import CustomButton from "../CustomButton";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 
 const ModalSetting = () => {
+  const handleDeleteAccount = async () => {
+    await SecureStore.deleteItemAsync("userPin");
+    await AsyncStorage.clear();
+
+    router.replace("/");
+  };
+
+  // Function to handle the
+
   return (
     <View className="bg-white rounded-xl p-4 w-full">
       <View className="flex justify-center items-center">
-        <Text className="text-base font-pregular font-bold tracking-wider">Settings</Text>
+        <Text className="text-base font-pregular font-bold tracking-wider">
+          Settings
+        </Text>
       </View>
 
-      <View className="flex justify-center items-center">
+      {/* <View className="flex justify-center items-center">
         <View className=" mt-4 flex flex-row justify-around bg-gray-100 w-60 rounded-2xl">
           <TouchableOpacity className="shadow-lg shadow-gray-600 bg-white w-[50%] flex items-center rounded-2xl p-2">
             <Text >Light</Text>
@@ -19,13 +32,14 @@ const ModalSetting = () => {
             <Text>Dark</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
 
-      <View className="flex items-center mt-4">
-        <CustomButton 
-           title="Delete Account"
-           containerStyles="min-h-[44px] bg-red-700 w-[60%]"
-           textStyles="text-white"
+      <View className="flex items-center mt-8">
+        <CustomButton
+          title="Delete Account"
+          containerStyles="min-h-[44px] bg-red-700 w-[60%]"
+          textStyles="text-white"
+          handlePress={handleDeleteAccount}
         />
       </View>
     </View>
@@ -35,11 +49,11 @@ const ModalSetting = () => {
 export default ModalSetting;
 
 const styles = StyleSheet.create({
-    boxShadows: {
-      shadowColor: 'rgba(0, 0, 0, 0.16)',
-      shadowOffset: { width: 0, height: 1 },
-      shadowOpacity: 0.16,
-      shadowRadius: 4,
-      elevation: 2, // for Android
-    },
-  });
+  boxShadows: {
+    shadowColor: "rgba(0, 0, 0, 0.16)",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.16,
+    shadowRadius: 4,
+    elevation: 2, // for Android
+  },
+});

@@ -29,20 +29,19 @@ export default function uploadImage() {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       quality: 1,
-      allowsMultipleSelection:false
+      allowsMultipleSelection: false,
     });
     // allowsMultipleSelection
     if (!result?.canceled) {
       if (result.assets && result.assets.length > 0) {
-      
-       const imageData = result.assets[0];
-       const imageUri = result.assets[0].uri;
+        const imageData = result.assets[0];
+        const imageUri = result.assets[0].uri;
 
-       setImage(imageUri); // This will set the image URI
+        setImage(imageUri); // This will set the image URI
 
-       dispatch(
-         uploadFileToS3({ fileUri: imageUri, fileName: imageData.fileName })
-       );
+        dispatch(
+          uploadFileToS3({ fileUri: imageUri, fileName: imageData.fileName })
+        );
       }
     }
   };
@@ -93,20 +92,20 @@ export default function uploadImage() {
         </View>
       )}
 
-<TouchableOpacity
-            onPress={()=>pickImage()}
-            className="bg-[#3AC0A0] rounded-md px-2 py-1 mt-8"
-          >
-            <Text className="text-white text-sm">upload</Text>
-          </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => pickImage()}
+        className="bg-[#3AC0A0] rounded-md px-2 py-1 mt-8 flex justify-center items-center"
+      >
+        <Text className="text-white text-lg capitalize font-medium">upload</Text>
+      </TouchableOpacity>
 
       {image && (
         <View className="flex justify-center items-center">
           <TouchableOpacity
             onPress={() => router.push("/photos")}
-            className="bg-[#3AC0A0] rounded-md px-2 py-1 mt-8"
+            className="bg-blue-400 rounded-md px-2 py-1 mt-8"
           >
-            <Text className="text-white text-sm">Go Back</Text>
+            <Text className="text-black text-sm">Go Back</Text>
           </TouchableOpacity>
         </View>
       )}

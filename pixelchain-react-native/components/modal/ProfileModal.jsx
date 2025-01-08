@@ -9,15 +9,17 @@ import {
   Platform,
   ToastAndroid,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { icons, images } from "../../constants";
 import CustomButton from "../CustomButton";
 import * as Clipboard from "expo-clipboard";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
+import { getCredentials } from "../../lib/Helper";
+import { router } from "expo-router";
 
 const ProfileModal = ({ handleProfileModal }) => {
-  const publicAddress = "0xE6B547A4964FfC42eF171f027Ce059af5bF6772a";
+  const [publicAddress, setPublicAddress] = useState("");
 
   const totalStorage = 7; // in GB
   const usedStorage = 4; // in GB
@@ -33,6 +35,18 @@ const ProfileModal = ({ handleProfileModal }) => {
       }
     }
   };
+
+    const getUserInfo = async () => {
+      const data = await getCredentials("123");
+      
+    
+      setPublicAddress(data.bucketName)
+    
+    };
+  
+    useEffect(() => {
+      getUserInfo();
+    }, []);
 
   return (
     <View className="p-2 w-80 bg-white rounded-2xl">
@@ -65,11 +79,11 @@ const ProfileModal = ({ handleProfileModal }) => {
           <View className="flex flex-row justify-start gap-1 items-center text-sm">
             {true ? (
               <View className="flex flex-col">
-                <Text className="text-sm pb-2">Public Address</Text>
+                <Text className="text-sm pb-2">Current Bucket:</Text>
 
-                <View className="flex flex-row justify-center items-center bg-white p-1 w-full rounded-2xl cursor-pointer">
+                <View className="flex flex-row justify-between items-center bg-white p-1 px-3 w-full rounded-2xl cursor-pointer">
                   <Text className="text-xs mr-4">
-                    {publicAddress.slice(0, 35)}..
+                    {publicAddress}
                   </Text>
                   <Pressable onPress={copyToClopboard}>
                     <MaterialCommunityIcons
@@ -129,15 +143,15 @@ const ProfileModal = ({ handleProfileModal }) => {
             </View>
           </View>
 
-          <TouchableOpacity className="flex justify-center items-center mt-3 ">
+          {/* <TouchableOpacity className="flex justify-center items-center mt-3 ">
             <Text className="p-2 text-sm text-white font-pmedium	rounded-xl bg-[#3AC0A0]">
               Get More Storage
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
 
-      <CustomButton title="View Full Profile" containerStyles="w-full mt-4" />
+      <CustomButton title="View Full Profile" containerStyles="w-full mt-4" handlePress={()=> router.push("/accountinfo")}/>
     </View>
   );
 };

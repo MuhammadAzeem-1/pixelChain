@@ -17,7 +17,7 @@ export default function index() {
       const credentials = await SecureStore.getItemAsync("userPin");
       if (credentials) {
         console.log(credentials);
-        router.push("/photos");
+        router.push("/sign-in");
       }
     };
     fetchStoredPasscode();
